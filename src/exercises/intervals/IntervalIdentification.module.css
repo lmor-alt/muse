@@ -1,0 +1,151 @@
+/*
+ * Interval Identification Exercise
+ * Audio-based interval recognition
+ * Grid layout for interval options
+ */
+
+.exercise {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.instruction {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  text-align: center;
+  letter-spacing: var(--tracking-tight);
+}
+
+.audioControls {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 320px;
+}
+
+.options button {
+  width: 100%;
+  min-height: 52px;
+}
+
+/* ============ CORRECT ANSWER REVEAL ============ */
+
+.correctAnswerReveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  background: var(--terracotta-muted);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--terracotta);
+  animation: fadeInDown var(--duration-normal) var(--ease-out);
+}
+
+.correctAnswerLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+}
+
+.correctAnswerNote {
+  font-family: var(--font-display);
+  font-size: var(--text-display-md);
+  font-weight: var(--weight-bold);
+  color: var(--ink);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============ NOTE GAP SLIDER ============ */
+
+.noteGapControl {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--sand-muted);
+}
+
+.noteGapLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink-subtle);
+  white-space: nowrap;
+}
+
+.noteGapSlider {
+  width: 120px;
+  height: 6px;
+  appearance: none;
+  background: var(--sand-muted);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+}
+
+.noteGapSlider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--brass);
+  border-radius: var(--radius-full);
+  cursor: grab;
+  transition: background var(--transition-fast);
+}
+
+.noteGapSlider::-webkit-slider-thumb:hover {
+  background: var(--brass-dark);
+}
+
+.noteGapSlider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+}
+
+.noteGapValue {
+  font-family: var(--font-mono, var(--font-body));
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  min-width: 40px;
+  text-align: right;
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 600px) {
+  .options {
+    grid-template-columns: 1fr;
+  }
+
+  .instruction {
+    font-size: var(--text-lg);
+  }
+}

@@ -1,0 +1,221 @@
+/*
+ * Piano Component
+ * Clean, tactile keys with warm materiality
+ */
+
+.piano {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: var(--space-4);
+  background: linear-gradient(
+    to bottom,
+    #4A4540 0%,
+    var(--ink) 5%,
+    var(--ink) 95%,
+    #1A1816 100%
+  );
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+}
+
+.piano.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.keysContainer {
+  position: relative;
+  height: 160px;
+}
+
+.whiteKeys {
+  display: flex;
+  height: 100%;
+  gap: 2px;
+}
+
+.whiteKey {
+  flex: 1;
+  background: linear-gradient(
+    to bottom,
+    #FFFEF8 0%,
+    #F5F2EA 85%,
+    #EDE9E0 100%
+  );
+  border: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  cursor: pointer;
+  position: relative;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: var(--space-2);
+}
+
+.whiteKey:hover:not(:disabled) {
+  background: linear-gradient(
+    to bottom,
+    #fff 0%,
+    #FFFEF8 85%,
+    #F5F2EA 100%
+  );
+}
+
+.whiteKey:active:not(:disabled) {
+  background: linear-gradient(
+    to bottom,
+    #F5F2EA 0%,
+    #EDE9E0 85%,
+    #E5E0D5 100%
+  );
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(2px);
+}
+
+.whiteKey.highlighted {
+  background: linear-gradient(
+    to bottom,
+    var(--brass-light) 0%,
+    var(--brass) 85%,
+    var(--brass-dark) 100%
+  );
+}
+
+.whiteKey:focus-visible {
+  outline: 3px solid var(--brass);
+  outline-offset: -3px;
+  z-index: 10;
+}
+
+.blackKeys {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  pointer-events: none;
+}
+
+.blackKey {
+  position: absolute;
+  width: 8%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    #4A4540 0%,
+    var(--ink) 60%,
+    #4A4540 100%
+  );
+  border: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  cursor: pointer;
+  pointer-events: auto;
+  transform: translateX(-50%);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 -4px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all var(--transition-fast);
+  z-index: 5;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: var(--space-1);
+}
+
+.blackKey:hover:not(:disabled) {
+  background: linear-gradient(
+    to bottom,
+    #5A554F 0%,
+    #4A4540 60%,
+    #5A554F 100%
+  );
+}
+
+.blackKey:active:not(:disabled) {
+  background: linear-gradient(
+    to bottom,
+    var(--ink) 0%,
+    #4A4540 60%,
+    var(--ink) 100%
+  );
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  transform: translateX(-50%) translateY(2px);
+}
+
+.blackKey.highlighted {
+  background: linear-gradient(
+    to bottom,
+    var(--brass) 0%,
+    var(--brass-dark) 60%,
+    #8A7355 100%
+  );
+}
+
+.blackKey:focus-visible {
+  outline: 2px solid var(--brass-light);
+  outline-offset: 2px;
+}
+
+/* ============ KEY LABELS ============ */
+
+.keyLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  color: var(--ink);
+  pointer-events: none;
+}
+
+.blackKeyLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: rgba(255, 255, 255, 0.9);
+  position: absolute;
+  bottom: var(--space-1);
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 768px) {
+  .piano {
+    max-width: 100%;
+    padding: var(--space-3);
+  }
+
+  .keysContainer {
+    height: 130px;
+  }
+
+  .keyLabel {
+    font-size: var(--text-sm);
+  }
+
+  .blackKeyLabel {
+    font-size: var(--text-xs);
+  }
+}
+
+@media (min-width: 1200px) {
+  .piano {
+    max-width: 560px;
+  }
+
+  .keysContainer {
+    height: 180px;
+  }
+}

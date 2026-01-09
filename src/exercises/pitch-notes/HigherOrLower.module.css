@@ -1,0 +1,172 @@
+/*
+ * Higher or Lower Exercise
+ * Compare two pitches aurally
+ * Clear note display and answer buttons
+ */
+
+.exercise {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.instruction {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  text-align: center;
+  letter-spacing: var(--tracking-tight);
+}
+
+.audioControls {
+  display: flex;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.buttonWithLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.buttonLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+}
+
+.notesReveal {
+  display: flex;
+  gap: var(--space-6);
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: var(--space-5);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--sand-muted);
+  animation: fadeIn var(--duration-normal) var(--ease-out);
+}
+
+.noteDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.noteLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+}
+
+.noteName {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  color: var(--ink);
+  letter-spacing: var(--tracking-tight);
+}
+
+.answerButtons {
+  display: flex;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.answerButtons button {
+  min-width: 160px;
+}
+
+/* ============ CORRECT ANSWER REVEAL ============ */
+
+.correctAnswerReveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  background: var(--terracotta-muted);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--terracotta);
+  animation: fadeInDown var(--duration-normal) var(--ease-out);
+}
+
+.correctAnswerLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+}
+
+.correctAnswerNote {
+  font-family: var(--font-display);
+  font-size: var(--text-display-md);
+  font-weight: var(--weight-bold);
+  color: var(--ink);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============ ANIMATIONS ============ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 768px) {
+  .instruction {
+    font-size: var(--text-lg);
+  }
+
+  .notesReveal {
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .noteName {
+    font-size: var(--text-xl);
+  }
+
+  .answerButtons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .answerButtons button {
+    width: 100%;
+  }
+}

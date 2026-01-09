@@ -1,0 +1,85 @@
+import React from 'react';
+import type { ExerciseSettingsProps, ChordDrawingSettings as Settings, ChordQuality } from '../../types';
+import { useGlobalStore } from '../../stores/globalStore';
+import { t } from '../../i18n/translations';
+import styles from './ExerciseSettings.module.css';
+
+const ALL_CHORD_TYPES: ChordQuality[] = ['major', 'minor', 'diminished', 'augmented', 'major7', 'minor7', 'dominant7'];
+
+export const ChordDrawingSettings: React.FC<ExerciseSettingsProps> = ({
+  settings,
+  onChange,
+  isPracticeMode = true,
+}) => {
+  const { language } = useGlobalStore();
+  const chordSettings = settings as Settings;
+
+  const updateSetting = <K extends keyof Settings>(key: K, value: Settings[K]) => {
+    onChange({ ...chordSettings, [key]: value });
+  };
+
+  const handleChordTypeToggle = (quality: ChordQuality) => {
+    const current = chordSettings.chordTypes || [];
+    const updated = current.includes(quality)
+      ? current.filter((q) => q !== quality)
+      : [...current, quality];
+    onChange({ ...chordSettings, chordTypes: updated });
+  };
+
+  return (
+    <div className={styles.settings}>
+      {/* Chord Types */}
+      <div className={styles.field}>
+        <label className={styles.label}>{t('settings.chordTypes', language)}</label>
+        <div className={styles.buttonGroup}>
+          {ALL_CHORD_TYPES.map((quality) => (
+            <button
+              key={quality}
+              className={`${styles.optionButton} ${(chordSettings.chordTypes || []).includes(quality) ? styles.active : ''}`}
+              onClick={() => handleChordTypeToggle(quality)}
+            >
+              {t(`chord.${quality}`, language)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Include Inversions */}
+      <div className={styles.field}>
+        <label className={styles.label}>{t('settings.includeInversions', language)}</label>
+        <div className={styles.toggle}>
+          <button
+            className={`${styles.toggleButton} ${!chordSettings.includeInversions ? styles.active : ''}`}
+            onClick={() => updateSetting('includeInversions', false)}
+          >
+            {t('value.no', language)}
+          </button>
+          <button
+            className={`${styles.toggleButton} ${chordSettings.includeInversions ? styles.active : ''}`}
+            onClick={() => updateSetting('includeInversions', true)}
+          >
+            {t('value.yes', language)}
+          </button>
+        </div>
+      </div>
+
+      {/* Question count - only show for quiz mode */}
+      {!isPracticeMode && (
+        <div className={styles.field}>
+          <label className={styles.label}>{t('settings.questionCount', language)}</label>
+          <div className={styles.buttonGroup}>
+            {[10, 20, 30].map((count) => (
+              <button
+                key={count}
+                className={`${styles.optionButton} ${chordSettings.questionCount === count ? styles.active : ''}`}
+                onClick={() => updateSetting('questionCount', count)}
+              >
+                {count}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};

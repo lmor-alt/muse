@@ -1,0 +1,220 @@
+/*
+ * Interactive Staff Component
+ * Draw notes on a musical canvas
+ * Warm, inviting - like sketching music by hand
+ */
+
+.interactiveStaff {
+  display: block;
+  cursor: crosshair;
+  user-select: none;
+  /* Subtle warm tint for aged paper feel */
+  filter: sepia(0.02);
+  transition: filter var(--transition-fast);
+}
+
+.interactiveStaff:hover {
+  filter: sepia(0.01);
+}
+
+.interactiveStaff.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  filter: grayscale(0.3) sepia(0.02);
+}
+
+/* ============ STAFF LINES ============ */
+
+.staffLine {
+  stroke: var(--ink-subtle);
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.ledgerLine {
+  stroke: var(--ink-subtle);
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  opacity: 0.75;
+}
+
+.ledgerLinePreview {
+  stroke: var(--brass);
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  opacity: 0.4;
+}
+
+/* ============ CLEF ============ */
+
+.clef {
+  fill: var(--ink);
+  opacity: 0.9;
+  filter: saturate(0.8);
+}
+
+/* ============ NOTES ============ */
+
+.note {
+  cursor: pointer;
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.note:hover {
+  transform: scale(1.05);
+}
+
+/* Hover shows removal intent with terracotta */
+.note:hover .noteHead {
+  fill: var(--terracotta);
+  stroke: var(--terracotta);
+  filter: drop-shadow(0 2px 6px rgba(180, 120, 102, 0.4));
+}
+
+.note:hover .accidental {
+  fill: var(--terracotta);
+}
+
+.note:hover .ledgerLine {
+  stroke: var(--terracotta);
+  opacity: 0.6;
+}
+
+.noteHead {
+  fill: var(--ink);
+  stroke: var(--ink);
+  stroke-width: 1.5px;
+  transition:
+    fill var(--transition-fast),
+    stroke var(--transition-fast),
+    filter var(--transition-fast);
+}
+
+.accidental {
+  font-size: 20px;
+  fill: var(--ink);
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+  pointer-events: none;
+  transition: fill var(--transition-fast);
+}
+
+/* ============ HOVER PREVIEW ============ */
+
+.hoverPreview {
+  pointer-events: none;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.noteHeadPreview {
+  fill: var(--brass);
+  stroke: var(--brass);
+  stroke-width: 1.5px;
+  opacity: 0.5;
+  filter: drop-shadow(0 2px 4px rgba(184, 149, 107, 0.3));
+}
+
+.accidentalPreview {
+  font-size: 20px;
+  fill: var(--brass);
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+  opacity: 0.5;
+}
+
+/* ============ CLICK AREA ============ */
+
+.clickArea {
+  fill: transparent;
+  cursor: crosshair;
+}
+
+/* ============ NOTE STATES ============ */
+
+/* Just placed - brief golden glow */
+.note.justPlaced .noteHead {
+  fill: var(--brass);
+  stroke: var(--brass);
+  animation: notePlaced 0.4s ease-out forwards;
+}
+
+@keyframes notePlaced {
+  0% {
+    filter: drop-shadow(0 0 8px rgba(184, 149, 107, 0.8));
+    transform: scale(1.1);
+  }
+  100% {
+    filter: drop-shadow(0 0 0 rgba(184, 149, 107, 0));
+    transform: scale(1);
+  }
+}
+
+/* Correct answer */
+.note.correct .noteHead {
+  fill: var(--sage);
+  stroke: var(--sage);
+  filter: drop-shadow(0 2px 4px rgba(122, 139, 110, 0.4));
+}
+
+.note.correct .accidental {
+  fill: var(--sage);
+}
+
+/* Incorrect answer */
+.note.incorrect .noteHead {
+  fill: var(--terracotta);
+  stroke: var(--terracotta);
+  filter: drop-shadow(0 2px 4px rgba(180, 120, 102, 0.4));
+}
+
+.note.incorrect .accidental {
+  fill: var(--terracotta);
+}
+
+/* ============ ANIMATIONS ============ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============ INSTRUCTIONS HINT ============ */
+
+.instructions {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  fill: var(--ink-muted);
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 768px) {
+  .staffLine {
+    stroke-width: 1.25px;
+  }
+
+  .ledgerLine {
+    stroke-width: 1.25px;
+  }
+
+  .noteHead {
+    stroke-width: 1.25px;
+  }
+
+  .accidental {
+    font-size: 18px;
+  }
+
+  .accidentalPreview {
+    font-size: 18px;
+  }
+}

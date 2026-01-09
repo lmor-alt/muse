@@ -1,0 +1,102 @@
+/*
+ * AccidentalToolbar Component
+ * Sharp/flat/natural selection toolbar
+ * Tactile buttons with brass accents
+ */
+
+.toolbar {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--sand-muted);
+  box-shadow: var(--shadow-sm);
+}
+
+.toolbar.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  font-size: 24px;
+  background: linear-gradient(
+    180deg,
+    var(--bg-elevated) 0%,
+    var(--bg-secondary) 100%
+  );
+  border: 1px solid var(--sand);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  box-shadow:
+    var(--shadow-sm),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  color: var(--ink);
+}
+
+.button:hover:not(:disabled) {
+  background: linear-gradient(
+    180deg,
+    var(--bg-primary) 0%,
+    var(--bg-elevated) 100%
+  );
+  border-color: var(--brass);
+  transform: translateY(-2px);
+  box-shadow:
+    var(--shadow-md),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow:
+    var(--shadow-sm),
+    inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.button.selected {
+  background: linear-gradient(
+    180deg,
+    var(--brass-light) 0%,
+    var(--brass) 100%
+  );
+  border-color: var(--brass-dark);
+  color: var(--ink);
+  box-shadow:
+    0 4px 12px rgba(184, 149, 107, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.button.selected:hover:not(:disabled) {
+  background: linear-gradient(
+    180deg,
+    var(--brass) 0%,
+    var(--brass-dark) 100%
+  );
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--brass);
+  outline-offset: 2px;
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 768px) {
+  .button {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+}

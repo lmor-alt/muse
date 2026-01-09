@@ -1,0 +1,188 @@
+/*
+ * Chord Identification (Auditory) Exercise
+ * Identify chords by ear
+ * Grid layout for chord type options
+ */
+
+.exercise {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.instruction {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  text-align: center;
+  letter-spacing: var(--tracking-tight);
+}
+
+.audioControls {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ============ TWO-STEP SELECTION ============ */
+
+.twoStepContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+.stepSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.stepLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--ink-subtle);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 320px;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.options.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.options button {
+  width: 100%;
+  min-height: 52px;
+}
+
+/* ============ NOTE GAP SLIDER ============ */
+
+.noteGapControl {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--sand-muted);
+}
+
+.noteGapLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink-subtle);
+  white-space: nowrap;
+}
+
+.noteGapSlider {
+  width: 120px;
+  height: 6px;
+  appearance: none;
+  background: var(--sand-muted);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+}
+
+.noteGapSlider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--brass);
+  border-radius: var(--radius-full);
+  cursor: grab;
+  transition: background var(--transition-fast);
+}
+
+.noteGapSlider::-webkit-slider-thumb:hover {
+  background: var(--brass-dark);
+}
+
+.noteGapSlider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+}
+
+.noteGapValue {
+  font-family: var(--font-mono, var(--font-body));
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  min-width: 40px;
+  text-align: right;
+}
+
+/* ============ CORRECT ANSWER REVEAL ============ */
+
+.correctAnswerReveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  background: var(--terracotta-muted);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--terracotta);
+  animation: fadeInDown var(--duration-normal) var(--ease-out);
+}
+
+.correctAnswerLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+}
+
+.correctAnswerNote {
+  font-family: var(--font-display);
+  font-size: var(--text-display-md);
+  font-weight: var(--weight-bold);
+  color: var(--ink);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 600px) {
+  .options {
+    grid-template-columns: 1fr;
+  }
+
+  .instruction {
+    font-size: var(--text-lg);
+  }
+
+  .audioControls {
+    gap: var(--space-3);
+  }
+}

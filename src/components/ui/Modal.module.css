@@ -1,0 +1,222 @@
+/*
+ * Modal Component
+ * Elegant overlay with warm materiality
+ * The backdrop has a soft, warm tint - not cold gray
+ */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(42, 38, 34, 0.7) 0%,
+    rgba(42, 38, 34, 0.8) 100%
+  );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-overlay);
+  padding: var(--space-6);
+  animation: backdropIn var(--duration-normal) var(--ease-out);
+}
+
+.modal {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-2xl);
+  box-shadow:
+    var(--shadow-xl),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  max-height: 85vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: var(--z-modal);
+  animation: modalIn var(--duration-slow) var(--ease-out);
+  position: relative;
+}
+
+/* Subtle top highlight */
+.modal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+}
+
+/* ============ SIZES ============ */
+
+.sm {
+  width: 100%;
+  max-width: 420px;
+}
+
+.md {
+  width: 100%;
+  max-width: 560px;
+}
+
+.lg {
+  width: 100%;
+  max-width: 720px;
+}
+
+.xl {
+  width: 100%;
+  max-width: 900px;
+}
+
+/* ============ HEADER ============ */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-6) var(--space-8);
+  border-bottom: 1px solid var(--sand-muted);
+  background: var(--bg-secondary);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-display-sm);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  margin: 0;
+  letter-spacing: var(--tracking-tight);
+}
+
+/* Optional subtitle */
+.subtitle {
+  font-size: var(--text-sm);
+  color: var(--ink-subtle);
+  margin-top: var(--space-1);
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: 24px;
+  line-height: 1;
+  color: var(--ink-subtle);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+  flex-shrink: 0;
+  margin: calc(var(--space-2) * -1);
+}
+
+.closeButton:hover {
+  background: var(--bg-tertiary);
+  color: var(--ink);
+  transform: rotate(90deg);
+}
+
+.closeButton:active {
+  transform: rotate(90deg) scale(0.95);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+/* ============ CONTENT ============ */
+
+.content {
+  padding: var(--space-8);
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Scrollbar in modal */
+.content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: var(--sand);
+  border-radius: var(--radius-full);
+}
+
+/* ============ FOOTER ============ */
+
+.footer {
+  padding: var(--space-6) var(--space-8);
+  border-top: 1px solid var(--sand-muted);
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.footerSpaced {
+  justify-content: space-between;
+}
+
+/* ============ ANIMATIONS ============ */
+
+@keyframes backdropIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ============ VARIANTS ============ */
+
+/* Centered modal with no header - for alerts */
+.centered {
+  text-align: center;
+}
+
+.centered .content {
+  padding: var(--space-10) var(--space-8);
+}
+
+/* Full-height modal */
+.fullHeight {
+  height: 85vh;
+}
+
+/* Modal with brass accent */
+.accented .header {
+  border-bottom-color: var(--brass);
+  border-bottom-width: 2px;
+}

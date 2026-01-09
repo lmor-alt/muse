@@ -1,0 +1,97 @@
+/*
+ * Interval Drawing Exercise
+ * Draw intervals on an interactive staff
+ * Toolbar for accidentals
+ */
+
+.exercise {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.instructionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.instruction {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  text-align: center;
+  letter-spacing: var(--tracking-tight);
+  margin: 0;
+}
+
+.intervalSymbol {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  color: white;
+  background: var(--brass);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-3);
+  text-align: center;
+}
+
+.correctAnswerStaff {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--terracotta-light);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--terracotta-muted);
+}
+
+.correctLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--terracotta-dark);
+}
+
+.staffContainer {
+  background: var(--bg-secondary);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--sand-muted);
+}
+
+.toolbar {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 768px) {
+  .staffContainer {
+    padding: var(--space-4);
+  }
+
+  .instruction {
+    font-size: var(--text-lg);
+  }
+
+  .toolbar {
+    gap: var(--space-3);
+  }
+}

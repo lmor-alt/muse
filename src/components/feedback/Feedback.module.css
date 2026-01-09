@@ -1,0 +1,238 @@
+/*
+ * Feedback Component
+ * Light toast-style feedback at the bottom
+ * Subtle and non-aggressive
+ */
+
+.feedback {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg);
+  animation: slideUp var(--duration-normal) var(--ease-out);
+  position: relative;
+  background: var(--bg-elevated);
+  border: 1px solid var(--sand-muted);
+  box-shadow: var(--shadow-md);
+}
+
+/* ============ CORRECT STATE ============ */
+
+.feedback.correct {
+  /* Same light background for both states */
+}
+
+/* ============ INCORRECT STATE ============ */
+
+.feedback.incorrect {
+  /* Same light background for both states */
+}
+
+/* ============ CONTENT LAYOUT ============ */
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+/* ============ ICON ============ */
+
+.icon {
+  display: none;
+}
+
+/* ============ MESSAGE ============ */
+
+.message {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.status {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+}
+
+.correct .status {
+  color: var(--sage-dark);
+}
+
+.incorrect .status {
+  color: rgba(180, 100, 80, 0.85);
+}
+
+.answer {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--ink-subtle);
+}
+
+.answer strong {
+  font-weight: var(--weight-semibold);
+  color: var(--ink);
+}
+
+/* ============ WHY BUTTON ============ */
+
+.whyButton {
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  border: 1px solid var(--ink-muted);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.whyButton:hover {
+  background: var(--bg-secondary);
+  border-color: var(--ink-subtle);
+  color: var(--ink);
+}
+
+.whyButton:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+/* ============ EXPLANATION ============ */
+
+.explanation {
+  width: 100%;
+  padding: var(--space-4) var(--space-5);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink-subtle);
+  line-height: var(--leading-relaxed);
+  animation: fadeIn var(--duration-fast) var(--ease-out);
+  position: relative;
+  z-index: 1;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============ NEXT BUTTON ============ */
+
+.nextButton {
+  padding: var(--space-2) var(--space-5);
+  background: linear-gradient(
+    180deg,
+    var(--brass-light) 0%,
+    var(--brass) 100%
+  );
+  color: var(--ink);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.nextButton:hover {
+  background: linear-gradient(
+    180deg,
+    var(--brass) 0%,
+    var(--brass-dark) 100%
+  );
+  box-shadow: var(--shadow-md);
+}
+
+.nextButton:active {
+  box-shadow: var(--shadow-xs);
+}
+
+.nextButton:focus-visible {
+  outline: 2px solid var(--brass-dark);
+  outline-offset: 2px;
+}
+
+/* ============ ANIMATIONS ============ */
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes iconPop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes iconShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20%, 60% {
+    transform: translateX(-4px);
+  }
+  40%, 80% {
+    transform: translateX(4px);
+  }
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 768px) {
+  .feedback {
+    padding: var(--space-3) var(--space-4);
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .message {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+
+  .nextButton {
+    width: 100%;
+    padding: var(--space-3) var(--space-5);
+  }
+}

@@ -1,0 +1,206 @@
+/*
+ * Staff Component
+ * Musical notation with warm, organic line quality
+ * Like hand-drawn sheet music on aged parchment
+ */
+
+.staff {
+  display: block;
+  /* Subtle warm tint for aged paper feel */
+  filter: sepia(0.02);
+}
+
+/* ============ STAFF LINES ============ */
+
+.staffLine {
+  stroke: var(--ink-subtle);
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  /* Slight variation for organic feel */
+  opacity: 0.85;
+}
+
+.ledgerLine {
+  stroke: var(--ink-subtle);
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  opacity: 0.75;
+}
+
+/* ============ CLEF ============ */
+
+.clef {
+  fill: var(--ink);
+  opacity: 0.9;
+  /* Subtle warmth */
+  filter: saturate(0.8);
+}
+
+/* ============ NOTES ============ */
+
+.note {
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.noteHead {
+  fill: var(--ink);
+  stroke: var(--ink);
+  stroke-width: 1px;
+  transition:
+    fill var(--transition-fast),
+    stroke var(--transition-fast),
+    filter var(--transition-fast);
+}
+
+/* ============ ACCIDENTALS ============ */
+
+.accidental {
+  font-size: 18px;
+  fill: var(--ink);
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+}
+
+/* ============ INTERACTIVE STATES ============ */
+
+/* Hover effect for interactive staffs */
+.staff.interactive {
+  cursor: pointer;
+}
+
+.staff.interactive .note {
+  cursor: pointer;
+}
+
+.staff.interactive .note:hover {
+  transform: scale(1.05);
+}
+
+.staff.interactive .note:hover .noteHead {
+  fill: var(--brass);
+  stroke: var(--brass);
+  filter: drop-shadow(0 2px 4px rgba(184, 149, 107, 0.3));
+}
+
+.staff.interactive .note:hover .accidental {
+  fill: var(--brass);
+}
+
+/* ============ CORRECT/INCORRECT STATES ============ */
+
+.note.correct .noteHead {
+  fill: var(--sage);
+  stroke: var(--sage);
+  filter: drop-shadow(0 2px 4px rgba(122, 139, 110, 0.3));
+}
+
+.note.correct .accidental {
+  fill: var(--sage);
+}
+
+.note.incorrect .noteHead {
+  fill: var(--terracotta);
+  stroke: var(--terracotta);
+  filter: drop-shadow(0 2px 4px rgba(180, 120, 102, 0.3));
+}
+
+.note.incorrect .accidental {
+  fill: var(--terracotta);
+}
+
+/* ============ HIGHLIGHTED STATE ============ */
+
+.note.highlighted .noteHead {
+  fill: var(--brass);
+  stroke: var(--brass);
+  filter: drop-shadow(0 2px 6px rgba(184, 149, 107, 0.4));
+}
+
+.note.highlighted .accidental {
+  fill: var(--brass);
+}
+
+/* ============ PLAYING/ACTIVE STATE ============ */
+
+.note.playing .noteHead {
+  fill: var(--brass);
+  stroke: var(--brass-dark);
+  stroke-width: 2px;
+  animation: notePulse 0.5s ease-out;
+}
+
+@keyframes notePulse {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 rgba(184, 149, 107, 0.5));
+  }
+  50% {
+    transform: scale(1.15);
+    filter: drop-shadow(0 4px 12px rgba(184, 149, 107, 0.6));
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 2px 4px rgba(184, 149, 107, 0.3));
+  }
+}
+
+/* ============ GHOST/PREVIEW NOTES ============ */
+
+.note.ghost .noteHead {
+  fill: var(--sand);
+  stroke: var(--sand);
+  opacity: 0.5;
+}
+
+.note.ghost .accidental {
+  fill: var(--sand);
+  opacity: 0.5;
+}
+
+/* ============ DISABLED STATE ============ */
+
+.staff.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.staff.disabled .noteHead {
+  fill: var(--ink-muted);
+  stroke: var(--ink-muted);
+}
+
+/* ============ SIZE VARIANTS ============ */
+
+.staff.compact .staffLine {
+  stroke-width: 1px;
+}
+
+.staff.compact .ledgerLine {
+  stroke-width: 1px;
+}
+
+.staff.compact .noteHead {
+  stroke-width: 0.5px;
+}
+
+.staff.compact .accidental {
+  font-size: 14px;
+}
+
+.staff.large .staffLine {
+  stroke-width: 2px;
+}
+
+.staff.large .ledgerLine {
+  stroke-width: 2px;
+}
+
+.staff.large .noteHead {
+  stroke-width: 1.5px;
+}
+
+.staff.large .accidental {
+  font-size: 22px;
+}

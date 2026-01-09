@@ -1,0 +1,151 @@
+/*
+ * Interval Quiz Settings
+ * Collapsible advanced settings panel
+ */
+
+/* ============ ADVANCED TOGGLE ============ */
+
+.advancedToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-secondary);
+  border: 1px solid var(--sand-muted);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.advancedToggle:hover {
+  background: var(--sand-light);
+  border-color: var(--sand);
+}
+
+.chevron {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--brass);
+  transform: rotate(0deg);
+  transition: transform var(--transition-fast);
+}
+
+.chevron.open {
+  transform: rotate(90deg);
+}
+
+/* ============ ADVANCED PANEL ============ */
+
+.advancedPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  background: var(--bg-secondary);
+  border: 1px solid var(--sand-muted);
+  border-radius: var(--radius-lg);
+  animation: slideDown var(--duration-normal) var(--ease-out);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============ INTERVALS SECTION ============ */
+
+.intervalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.intervalActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.textButton {
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--brass);
+  cursor: pointer;
+  padding: 0;
+  transition: color var(--transition-fast);
+}
+
+.textButton:hover {
+  color: var(--brass-dark);
+  text-decoration: underline;
+}
+
+.divider {
+  color: var(--sand);
+  font-size: var(--text-xs);
+}
+
+.intervalGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: var(--space-2);
+}
+
+.intervalChip {
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-elevated);
+  border: 1px solid var(--sand-muted);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--ink-subtle);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+  white-space: nowrap;
+  text-align: center;
+}
+
+.intervalChip:hover {
+  background: var(--sand-light);
+  border-color: var(--sand);
+}
+
+.intervalChip.active {
+  background: var(--sage-muted);
+  border-color: var(--sage);
+  color: var(--forest);
+  font-weight: var(--weight-medium);
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 768px) {
+  .intervalGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .intervalHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

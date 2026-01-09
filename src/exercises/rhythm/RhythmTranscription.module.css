@@ -1,0 +1,381 @@
+/*
+ * Rhythm Transcription Exercise
+ * Staff-based rhythm notation with note palette
+ * Warm, organic design aesthetic
+ */
+
+.exercise {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.instruction {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  text-align: center;
+  letter-spacing: var(--tracking-tight);
+}
+
+/* ============ AUDIO CONTROLS ============ */
+
+.audioControls {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ============ TEMPO CONTROLS ============ */
+
+.tempoControls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-4) var(--space-6);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--sand-muted);
+  box-shadow: var(--shadow-sm);
+}
+
+.bpmControl {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 180px;
+}
+
+.bpmLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.bpmValue {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--ink);
+  min-width: 32px;
+}
+
+.bpmSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: var(--sand-muted);
+  border-radius: var(--radius-full);
+  outline: none;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.bpmSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(
+    180deg,
+    var(--brass-light) 0%,
+    var(--brass) 100%
+  );
+  border: 2px solid var(--brass-dark);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(184, 149, 107, 0.3);
+  transition: transform var(--transition-fast);
+}
+
+.bpmSlider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.bpmSlider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(
+    180deg,
+    var(--brass-light) 0%,
+    var(--brass) 100%
+  );
+  border: 2px solid var(--brass-dark);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(184, 149, 107, 0.3);
+}
+
+.bpmSlider:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.metronomeToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-elevated);
+  border: 2px solid var(--sand);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.metronomeToggle:hover:not(:disabled) {
+  border-color: var(--brass);
+  color: var(--ink);
+}
+
+.metronomeToggle.active {
+  background: linear-gradient(
+    180deg,
+    var(--brass-light) 0%,
+    var(--brass) 100%
+  );
+  border-color: var(--brass-dark);
+  color: var(--ink);
+  box-shadow: 0 2px 8px rgba(184, 149, 107, 0.3);
+}
+
+.metronomeToggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.metronomeIcon {
+  font-size: var(--text-lg);
+}
+
+/* ============ STAFF CONTAINER ============ */
+
+.staffContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-5);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--sand-muted);
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.staffLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.beatsInfo {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  color: var(--ink-muted);
+}
+
+/* ============ NOTE PALETTE ============ */
+
+.notePalette {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--sand-muted);
+  width: 100%;
+  max-width: 700px;
+}
+
+.paletteSection {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.paletteLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--ink-muted);
+  min-width: 60px;
+}
+
+.paletteButtons {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.paletteButton {
+  padding: var(--space-2) var(--space-4);
+  background: var(--bg-elevated);
+  border: 2px solid var(--sand);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.paletteButton:hover {
+  border-color: var(--brass);
+  transform: translateY(-2px);
+}
+
+.paletteButton.selected {
+  background: linear-gradient(
+    180deg,
+    var(--brass-light) 0%,
+    var(--brass) 100%
+  );
+  border-color: var(--brass-dark);
+  box-shadow: 0 4px 12px rgba(184, 149, 107, 0.3);
+}
+
+.paletteButton.restButton {
+  border-style: dashed;
+}
+
+.paletteButton.restButton.selected {
+  border-style: solid;
+}
+
+.paletteActions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  margin-top: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--sand-muted);
+}
+
+/* ============ TOOLBAR (legacy, keep for compatibility) ============ */
+
+.toolbar {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============ COMPARISON SECTION (for feedback) ============ */
+
+.comparison {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--sand-muted);
+  width: 100%;
+  max-width: 600px;
+}
+
+.comparisonRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.comparisonLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+  min-width: 100px;
+}
+
+.patternDisplay {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.patternBeat {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--ink);
+}
+
+.patternBeat.correct {
+  color: var(--sage);
+}
+
+.patternBeat.incorrect {
+  color: var(--terracotta);
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 768px) {
+  .tempoControls {
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-4);
+  }
+
+  .bpmControl {
+    min-width: 100%;
+  }
+
+  .staffContainer {
+    padding: var(--space-4);
+  }
+
+  .notePalette {
+    padding: var(--space-4);
+  }
+
+  .paletteSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .paletteLabel {
+    min-width: auto;
+  }
+
+  .paletteActions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .paletteActions button {
+    width: 100%;
+  }
+
+  .instruction {
+    font-size: var(--text-lg);
+  }
+}

@@ -1,0 +1,145 @@
+/*
+ * Rhythm Exercise Settings
+ * Configuration options with warm tactile controls
+ * Includes sliders, selects, and checkboxes
+ */
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  letter-spacing: var(--tracking-tight);
+}
+
+.select {
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  border: 1px solid var(--sand);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.select:hover {
+  border-color: var(--sand-dark);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--brass);
+  box-shadow: 0 0 0 3px rgba(184, 149, 107, 0.15);
+}
+
+.slider {
+  width: 100%;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--sand);
+  outline: none;
+  cursor: pointer;
+  accent-color: var(--brass);
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--brass);
+  cursor: pointer;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.optionButton {
+  padding: var(--space-2) var(--space-4);
+  background: var(--bg-secondary);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.optionButton:hover:not(.active) {
+  background: var(--sand-light);
+}
+
+.optionButton.active {
+  border-color: var(--brass);
+  background: var(--bg-elevated);
+  color: var(--ink);
+  font-weight: var(--weight-medium);
+  box-shadow: var(--shadow-sm);
+}
+
+.toggle {
+  display: flex;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-1);
+  border: 1px solid var(--sand-muted);
+}
+
+.toggleButton {
+  flex: 1;
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink-subtle);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.toggleButton.active {
+  background: var(--bg-elevated);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+
+.toggleButton:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: -2px;
+  border-radius: var(--radius-sm);
+}

@@ -1,0 +1,77 @@
+/*
+ * Note Identification Exercise
+ * Visual note reading practice
+ * Clean layout with warm staff presentation
+ */
+
+.exercise {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.instruction {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  text-align: center;
+  letter-spacing: var(--tracking-tight);
+  margin: 0;
+}
+
+.staffContainer {
+  background: var(--bg-elevated);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--sand-muted);
+  animation: fadeIn var(--duration-normal) var(--ease-out);
+}
+
+.inputContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  animation: fadeInUp var(--duration-normal) var(--ease-out);
+}
+
+/* ============ ANIMATIONS ============ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 768px) {
+  .staffContainer {
+    padding: var(--space-4);
+  }
+
+  .instruction {
+    font-size: var(--text-lg);
+  }
+}

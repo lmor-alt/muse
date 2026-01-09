@@ -1,0 +1,106 @@
+/*
+ * Pitch Hearing Exercise
+ * Audio-based pitch identification
+ * Clean layout with audio controls
+ */
+
+.exercise {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.instruction {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  text-align: center;
+  letter-spacing: var(--tracking-tight);
+}
+
+.inputContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ============ CORRECT ANSWER REVEAL ============ */
+
+.correctAnswerReveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  background: var(--terracotta-muted);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--terracotta);
+  animation: fadeInDown var(--duration-normal) var(--ease-out);
+}
+
+.correctAnswerLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+}
+
+.correctAnswerNote {
+  font-family: var(--font-display);
+  font-size: var(--text-display-md);
+  font-weight: var(--weight-bold);
+  color: var(--ink);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============ REFERENCE BUTTON ============ */
+
+.referenceButton {
+  background: transparent;
+  border: none;
+  color: var(--ink-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  padding: var(--space-2) var(--space-4);
+  transition: color var(--transition-fast);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.referenceButton:hover:not(:disabled) {
+  color: var(--brass-deep);
+}
+
+.referenceButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 768px) {
+  .instruction {
+    font-size: var(--text-lg);
+  }
+
+  .correctAnswerNote {
+    font-size: var(--text-xl);
+  }
+}

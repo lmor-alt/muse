@@ -1,0 +1,206 @@
+/*
+ * RhythmStaff Component
+ * Musical rhythm notation with warm, organic line quality
+ * Single-line staff for rhythm exercises
+ */
+
+.rhythmStaff {
+  display: block;
+  filter: sepia(0.02);
+}
+
+/* ============ STAFF LINE ============ */
+
+.staffLine {
+  stroke: var(--ink-subtle);
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.barLine {
+  stroke: var(--ink);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  opacity: 0.9;
+}
+
+/* ============ TIME SIGNATURE ============ */
+
+.timeSignatureTop,
+.timeSignatureBottom {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: var(--weight-bold);
+  fill: var(--ink);
+  text-anchor: middle;
+}
+
+/* ============ NOTE HEADS ============ */
+
+.noteHeadFilled {
+  fill: var(--ink);
+  stroke: var(--ink);
+  stroke-width: 1px;
+  transition:
+    fill var(--transition-fast),
+    stroke var(--transition-fast),
+    filter var(--transition-fast);
+}
+
+.noteHeadOpen {
+  fill: transparent;
+  stroke: var(--ink);
+  stroke-width: 2px;
+  transition:
+    fill var(--transition-fast),
+    stroke var(--transition-fast),
+    filter var(--transition-fast);
+}
+
+.stem {
+  stroke: var(--ink);
+  stroke-width: 2px;
+  stroke-linecap: round;
+}
+
+.flag {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2px;
+  stroke-linecap: round;
+}
+
+/* ============ RESTS ============ */
+
+.rest {
+  fill: var(--ink);
+  transition: fill var(--transition-fast);
+}
+
+.restStem {
+  stroke: var(--ink);
+  stroke-width: 2px;
+  stroke-linecap: round;
+}
+
+/* ============ EVENTS (NOTES/RESTS) ============ */
+
+.event {
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+/* ============ INTERACTIVE STATE ============ */
+
+.rhythmStaff.interactive .event {
+  cursor: pointer;
+}
+
+.rhythmStaff.interactive .event:hover .noteHeadFilled,
+.rhythmStaff.interactive .event:hover .noteHeadOpen {
+  fill: var(--brass);
+  stroke: var(--brass);
+  filter: drop-shadow(0 2px 4px rgba(184, 149, 107, 0.3));
+}
+
+.rhythmStaff.interactive .event:hover .stem,
+.rhythmStaff.interactive .event:hover .flag {
+  stroke: var(--brass);
+}
+
+.rhythmStaff.interactive .event:hover .rest {
+  fill: var(--brass);
+}
+
+/* ============ HIGHLIGHTED STATE ============ */
+
+.event.highlighted .noteHeadFilled,
+.event.highlighted .noteHeadOpen {
+  fill: var(--brass);
+  stroke: var(--brass);
+  filter: drop-shadow(0 2px 6px rgba(184, 149, 107, 0.4));
+}
+
+.event.highlighted .stem,
+.event.highlighted .flag {
+  stroke: var(--brass);
+}
+
+.event.highlighted .rest {
+  fill: var(--brass);
+}
+
+/* ============ INCORRECT STATE ============ */
+
+.event.incorrect .noteHeadFilled,
+.event.incorrect .noteHeadOpen {
+  fill: var(--terracotta);
+  stroke: var(--terracotta);
+  filter: drop-shadow(0 2px 4px rgba(180, 120, 102, 0.3));
+}
+
+.event.incorrect .stem,
+.event.incorrect .flag {
+  stroke: var(--terracotta);
+}
+
+.event.incorrect .rest {
+  fill: var(--terracotta);
+}
+
+/* ============ CORRECT ANSWER DISPLAY ============ */
+
+.correctAnswer {
+  opacity: 0.6;
+}
+
+.correctEvent .noteHeadFilled,
+.correctEvent .noteHeadOpen {
+  fill: var(--sage);
+  stroke: var(--sage);
+}
+
+.correctEvent .stem,
+.correctEvent .flag {
+  stroke: var(--sage);
+}
+
+.correctEvent .rest {
+  fill: var(--sage);
+}
+
+/* ============ PLAYING ANIMATION ============ */
+
+.event.playing .noteHeadFilled,
+.event.playing .noteHeadOpen {
+  fill: var(--brass);
+  stroke: var(--brass-dark);
+  stroke-width: 2px;
+  animation: notePulse 0.3s ease-out;
+}
+
+@keyframes notePulse {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 rgba(184, 149, 107, 0.5));
+  }
+  50% {
+    transform: scale(1.15);
+    filter: drop-shadow(0 4px 12px rgba(184, 149, 107, 0.6));
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 2px 4px rgba(184, 149, 107, 0.3));
+  }
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 768px) {
+  .timeSignatureTop,
+  .timeSignatureBottom {
+    font-size: 20px;
+  }
+}
