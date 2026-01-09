@@ -2,10 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import type { ExerciseProps, Note, HigherOrLowerSettings } from '../../types';
 import { useGlobalStore } from '../../stores/globalStore';
 import { useExerciseStore } from '../../stores/exerciseStore';
-import { t, getNoteName } from '../../i18n/translations';
+import { t } from '../../i18n/translations';
 import { randomNoteInRange, noteToSemitones } from '../../utils/musicTheory';
 import { audioEngine } from '../../audio/audioEngine';
-import { Staff } from '../../components/staff/Staff';
 import { Feedback } from '../../components/feedback/Feedback';
 import { ExerciseWrapper } from '../../components/exercise/ExerciseWrapper';
 import { Button, ReplayButton } from '../../components/ui';
@@ -31,7 +30,6 @@ export const HigherOrLower: React.FC<ExerciseProps> = ({ settings }) => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
-  const [showNotes, setShowNotes] = useState(false);
 
   // Generate a new note that's different from the reference note
   const generateNewNote = useCallback((referenceNote: Note | null): Note => {
@@ -69,7 +67,6 @@ export const HigherOrLower: React.FC<ExerciseProps> = ({ settings }) => {
     setHasCurrentBeenPlayed(false);
     setCurrentPlayCount(0);
     setShowFeedback(false);
-    setShowNotes(false);
     setQuestionStartTime(Date.now());
   }, [holSettings]);
 
@@ -86,7 +83,6 @@ export const HigherOrLower: React.FC<ExerciseProps> = ({ settings }) => {
     setHasCurrentBeenPlayed(false);
     setCurrentPlayCount(0);
     setShowFeedback(false);
-    setShowNotes(false);
     setQuestionStartTime(Date.now());
   }, [currentNote, generateNewNote]);
 
@@ -141,7 +137,6 @@ export const HigherOrLower: React.FC<ExerciseProps> = ({ settings }) => {
 
     setIsCorrect(correct);
     setShowFeedback(true);
-    setShowNotes(true);
 
     recordAnswer(
       correct,
@@ -162,13 +157,6 @@ export const HigherOrLower: React.FC<ExerciseProps> = ({ settings }) => {
     return currSemitones > prevSemitones
       ? t('exercise.higher', language)
       : t('exercise.lower', language);
-  };
-
-  const getNoteDisplay = (note: Note) => {
-    const name = getNoteName(note.name, language);
-    const accidental =
-      note.accidental === 'sharp' ? '♯' : note.accidental === 'flat' ? '♭' : '';
-    return `${name}${accidental}${note.octave}`;
   };
 
   // Only need currentNote to render - previousNote can be null on first round
@@ -224,22 +212,6 @@ export const HigherOrLower: React.FC<ExerciseProps> = ({ settings }) => {
             <span className={styles.buttonLabel}>{t('exercise.current', language)}</span>
           </div>
         </div>
-
-        {showNotes && previousNote && (
-          <div className={styles.notesReveal}>
-            <div className={styles.noteDisplay}>
-              <span className={styles.noteLabel}>{t('exercise.previousNote', language)}:</span>
-              <span className={styles.noteName}>{getNoteDisplay(previousNote)}</span>
-            </div>
-            <Staff clef="treble" notes={[previousNote]} width={150} height={100} />
-
-            <div className={styles.noteDisplay}>
-              <span className={styles.noteLabel}>{t('exercise.currentNote', language)}:</span>
-              <span className={styles.noteName}>{getNoteDisplay(currentNote)}</span>
-            </div>
-            <Staff clef="treble" notes={[currentNote]} width={150} height={100} />
-          </div>
-        )}
 
         {/* Higher/Lower buttons - visible once user has heard something */}
         {!showFeedback && (
