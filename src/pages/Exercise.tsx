@@ -70,15 +70,19 @@ export const Exercise: React.FC = () => {
 
   const handleStart = () => {
     saveExerciseSettings(exercise.id, settings);
-    const questionCount = (settings as { questionCount?: number | 'endless' })
-      .questionCount ?? 10;
+    // Practice mode is always endless, quiz mode uses question count
+    const questionCount = isPracticeMode
+      ? 'endless'
+      : (settings as { questionCount?: number | 'endless' }).questionCount ?? 10;
     startExercise(questionCount, isPracticeMode);
     setShowSettings(false);
   };
 
   const handleRetry = () => {
-    const questionCount = (settings as { questionCount?: number | 'endless' })
-      .questionCount ?? 10;
+    // Practice mode is always endless, quiz mode uses question count
+    const questionCount = isPracticeMode
+      ? 'endless'
+      : (settings as { questionCount?: number | 'endless' }).questionCount ?? 10;
     startExercise(questionCount, isPracticeMode);
   };
 
