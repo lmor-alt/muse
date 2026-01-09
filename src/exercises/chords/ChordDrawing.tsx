@@ -163,7 +163,6 @@ export const ChordDrawing: React.FC<ExerciseProps> = ({ settings }) => {
   // Always use English note names and chord symbols
   const rootDisplay = `${rootNote.name}${rootNote.accidental === 'sharp' ? '♯' : rootNote.accidental === 'flat' ? '♭' : ''}`;
   const chordNameShort = `${rootDisplay} ${t(`chord.${chordQuality}`, 'en')}`; // For instruction
-  const chordNameFull = `${rootDisplay} ${t(`chord.${chordQuality}`, 'en')} (${getChordAbbreviation(chordQuality)})`; // For feedback
 
   return (
     <ExerciseWrapper onSkip={generateQuestion}>

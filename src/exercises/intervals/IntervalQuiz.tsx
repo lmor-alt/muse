@@ -47,7 +47,6 @@ export const IntervalQuiz: React.FC<ExerciseProps> = ({ settings }) => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
-  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
 
   // Ear module state
   const [options, setOptions] = useState<Interval[]>([]);
@@ -190,7 +189,6 @@ export const IntervalQuiz: React.FC<ExerciseProps> = ({ settings }) => {
     setDirection(dir);
     setCurrentClef(clef);
     setShowFeedback(false);
-    setShowCorrectAnswer(false);
     setQuestionStartTime(Date.now());
 
     // Reset module-specific state
@@ -246,10 +244,6 @@ export const IntervalQuiz: React.FC<ExerciseProps> = ({ settings }) => {
     setIsCorrect(correct);
     setShowFeedback(true);
 
-    if (!correct) {
-      setShowCorrectAnswer(true);
-    }
-
     recordAnswer(
       correct,
       t(getIntervalKey(selectedInterval) as TranslationKey, language),
@@ -268,10 +262,6 @@ export const IntervalQuiz: React.FC<ExerciseProps> = ({ settings }) => {
 
     setIsCorrect(correct);
     setShowFeedback(true);
-
-    if (!correct) {
-      setShowCorrectAnswer(true);
-    }
 
     const drawnNoteName = `${getNoteName(drawnNotes[0].name, language)}${drawnNotes[0].accidental === 'sharp' ? '♯' : drawnNotes[0].accidental === 'flat' ? '♭' : ''}`;
     const correctNoteName = `${getNoteName(correctNote.name, language)}${correctNote.accidental === 'sharp' ? '♯' : correctNote.accidental === 'flat' ? '♭' : ''}`;
@@ -368,8 +358,6 @@ export const IntervalQuiz: React.FC<ExerciseProps> = ({ settings }) => {
     const directionText = direction === 'above'
       ? t('value.above', language).toLowerCase()
       : t('value.below', language).toLowerCase();
-
-    const correctNote = applyInterval(firstNote, currentInterval, direction);
 
     return (
       <>

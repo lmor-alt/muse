@@ -34,7 +34,6 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
   const [replaysUsed, setReplaysUsed] = useState(0);
   const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
-  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
 
   // In-exercise noteGap control (0-5 seconds, stored in seconds)
   const [noteGap, setNoteGap] = useState(2);
@@ -106,7 +105,6 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
     setQuestionStartTime(Date.now());
     setReplaysUsed(0);
     setHasPlayedOnce(false);
-    setShowCorrectAnswer(false);
   }, [intervalSettings, availableIntervals]);
 
   useEffect(() => {
@@ -153,10 +151,6 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
 
     setIsCorrect(correct);
     setShowFeedback(true);
-
-    if (!correct) {
-      setShowCorrectAnswer(true);
-    }
 
     recordAnswer(
       correct,

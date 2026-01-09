@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import type { RhythmEvent, RhythmValue } from '../../types';
 import styles from './RhythmStaff.module.css';
 

@@ -175,7 +175,6 @@ export const InteractiveStaff: React.FC<InteractiveStaffProps> = ({
       if (stacked) {
         noteX = noteAreaStart + noteAreaWidth / 2;
         // Account for second offset
-        const noteY = noteToY(notes[i]);
         const sortedNotes = [...notes].sort((a, b) => noteToY(b) - noteToY(a));
         const sortedIndex = sortedNotes.findIndex(n =>
           n.name === notes[i].name && n.octave === notes[i].octave && n.accidental === notes[i].accidental
@@ -303,7 +302,6 @@ export const InteractiveStaff: React.FC<InteractiveStaffProps> = ({
           x = noteAreaStart + noteAreaWidth / 2;
 
           // Check for seconds (adjacent notes) - offset to avoid overlap
-          const noteY = noteToY(note);
           const sortedNotes = [...notes].sort((a, b) => noteToY(b) - noteToY(a));
           const sortedIndex = sortedNotes.findIndex(n =>
             n.name === note.name && n.octave === note.octave && n.accidental === note.accidental

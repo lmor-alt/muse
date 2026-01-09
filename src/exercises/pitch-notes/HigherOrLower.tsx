@@ -32,7 +32,6 @@ export const HigherOrLower: React.FC<ExerciseProps> = ({ settings }) => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
   const [showNotes, setShowNotes] = useState(false);
-  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
 
   // Generate a new note that's different from the reference note
   const generateNewNote = useCallback((referenceNote: Note | null): Note => {
@@ -72,7 +71,6 @@ export const HigherOrLower: React.FC<ExerciseProps> = ({ settings }) => {
     setShowFeedback(false);
     setShowNotes(false);
     setQuestionStartTime(Date.now());
-    setShowCorrectAnswer(false);
   }, [holSettings]);
 
   // Continue chain (after answering, generate next note in sequence)
@@ -90,7 +88,6 @@ export const HigherOrLower: React.FC<ExerciseProps> = ({ settings }) => {
     setShowFeedback(false);
     setShowNotes(false);
     setQuestionStartTime(Date.now());
-    setShowCorrectAnswer(false);
   }, [currentNote, generateNewNote]);
 
   // Initialize
@@ -145,10 +142,6 @@ export const HigherOrLower: React.FC<ExerciseProps> = ({ settings }) => {
     setIsCorrect(correct);
     setShowFeedback(true);
     setShowNotes(true);
-
-    if (!correct) {
-      setShowCorrectAnswer(true);
-    }
 
     recordAnswer(
       correct,

@@ -27,7 +27,6 @@ export const PitchHearing: React.FC<ExerciseProps> = ({
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
   const [replaysUsed, setReplaysUsed] = useState(0);
   const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
-  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
 
   const maxReplays = isPracticeMode ? Infinity : (pitchSettings.replayLimit ?? Infinity);
   const prevNoteRef = useRef<string | null>(null);
@@ -48,7 +47,6 @@ export const PitchHearing: React.FC<ExerciseProps> = ({
     setQuestionStartTime(Date.now());
     setReplaysUsed(0);
     setHasPlayedOnce(false);
-    setShowCorrectAnswer(false);
   }, [pitchSettings]);
 
   useEffect(() => {
@@ -85,11 +83,6 @@ export const PitchHearing: React.FC<ExerciseProps> = ({
 
     setIsCorrect(correct);
     setShowFeedback(true);
-
-    // Show correct answer above input if wrong
-    if (!correct) {
-      setShowCorrectAnswer(true);
-    }
 
     recordAnswer(
       correct,

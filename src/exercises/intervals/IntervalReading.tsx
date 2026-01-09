@@ -32,7 +32,6 @@ export const IntervalReading: React.FC<ExerciseProps> = ({ settings }) => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
-  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
 
   const availableIntervals = readingSettings.intervals.length > 0
     ? readingSettings.intervals
@@ -109,7 +108,6 @@ export const IntervalReading: React.FC<ExerciseProps> = ({ settings }) => {
     setOptions(allOptions);
     setShowFeedback(false);
     setQuestionStartTime(Date.now());
-    setShowCorrectAnswer(false);
   }, [readingSettings, availableIntervals]);
 
   useEffect(() => {
@@ -125,10 +123,6 @@ export const IntervalReading: React.FC<ExerciseProps> = ({ settings }) => {
 
     setIsCorrect(correct);
     setShowFeedback(true);
-
-    if (!correct) {
-      setShowCorrectAnswer(true);
-    }
 
     recordAnswer(
       correct,

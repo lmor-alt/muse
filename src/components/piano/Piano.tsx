@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import type { Note, NoteName, Accidental } from '../../types';
 import { audioEngine } from '../../audio/audioEngine';
 import { useGlobalStore } from '../../stores/globalStore';
+import { getNoteName } from '../../i18n/translations';
 import styles from './Piano.module.css';
 
 interface PianoProps {
@@ -36,7 +37,7 @@ export const Piano: React.FC<PianoProps> = ({
   disabled = false,
   showLabels = false,
 }) => {
-  const { pianoKeySounds, soundEnabled } = useGlobalStore();
+  const { pianoKeySounds, soundEnabled, language } = useGlobalStore();
 
   const generateKeys = useCallback((): KeyData[] => {
     const keys: KeyData[] = [];
@@ -123,7 +124,7 @@ export const Piano: React.FC<PianoProps> = ({
               aria-label={key.label}
             >
               {showLabels && (
-                <span className={styles.keyLabel}>{key.note.name}</span>
+                <span className={styles.keyLabel}>{getNoteName(key.note.name, language)}</span>
               )}
             </button>
           ))}
@@ -149,7 +150,7 @@ export const Piano: React.FC<PianoProps> = ({
                 aria-label={key.label}
               >
                 {showLabels && (
-                  <span className={styles.blackKeyLabel}>{key.note.name}#</span>
+                  <span className={styles.blackKeyLabel}>{getNoteName(key.note.name, language)}#</span>
                 )}
               </button>
             );

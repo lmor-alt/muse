@@ -155,7 +155,6 @@ export const Staff: React.FC<StaffProps> = ({
           x = clefOffset + noteAreaWidth / 2;
 
           // Check for seconds (adjacent notes) - offset to avoid overlap
-          const y = getNoteY(note);
           const sortedNotes = [...notes].sort((a, b) => getNoteY(b) - getNoteY(a));
           const sortedIndex = sortedNotes.findIndex(n =>
             n.name === note.name && n.octave === note.octave && n.accidental === note.accidental

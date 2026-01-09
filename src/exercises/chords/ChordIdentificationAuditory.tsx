@@ -79,7 +79,6 @@ export const ChordIdentificationAuditory: React.FC<ExerciseProps> = ({ settings 
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
   const [replaysUsed, setReplaysUsed] = useState(0);
   const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
-  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
 
   // Two-step selection: first pitch, then quality
   const [selectedRoot, setSelectedRoot] = useState<Note | null>(null);
@@ -128,7 +127,6 @@ export const ChordIdentificationAuditory: React.FC<ExerciseProps> = ({ settings 
     setQuestionStartTime(Date.now());
     setReplaysUsed(0);
     setHasPlayedOnce(false);
-    setShowCorrectAnswer(false);
     setSelectedRoot(null);
   }, [availableQualities]);
 
@@ -197,10 +195,6 @@ export const ChordIdentificationAuditory: React.FC<ExerciseProps> = ({ settings 
 
     setIsCorrect(correct);
     setShowFeedback(true);
-
-    if (!correct) {
-      setShowCorrectAnswer(true);
-    }
 
     recordAnswer(correct, userAnswer, correctAnswer, timeSpent);
   };
