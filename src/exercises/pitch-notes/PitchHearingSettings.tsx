@@ -71,6 +71,22 @@ export const PitchHearingSettings: React.FC<ExerciseSettingsProps> = ({
               ))}
             </div>
           </div>
+
+          {/* Time limit */}
+          <div className={styles.field}>
+            <label className={styles.label}>{t('settings.timeLimit', language)}</label>
+            <div className={styles.buttonGroup}>
+              {[null, 5, 10, 15].map((limit) => (
+                <button
+                  key={limit ?? 'none'}
+                  className={`${styles.optionButton} ${pitchSettings.timeLimit === limit ? styles.active : ''}`}
+                  onClick={() => updateSetting('timeLimit', limit)}
+                >
+                  {limit === null ? t('value.off', language) : `${limit}s`}
+                </button>
+              ))}
+            </div>
+          </div>
         </>
       )}
     </div>
