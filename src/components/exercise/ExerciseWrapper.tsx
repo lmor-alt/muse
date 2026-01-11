@@ -89,6 +89,7 @@ export const ExerciseWrapper: React.FC<ExerciseWrapperProps> = ({
     currentQuestion,
     totalQuestions,
     score,
+    isPracticeMode,
   } = exerciseState;
 
   const isEndless = totalQuestions === 'endless';
@@ -140,7 +141,10 @@ export const ExerciseWrapper: React.FC<ExerciseWrapperProps> = ({
           </div>
         )}
 
-        <span className={styles.score}>SCORE: {score}</span>
+        {/* Only show score in practice mode */}
+        {isPracticeMode && (
+          <span className={styles.score}>SCORE: {score}</span>
+        )}
       </div>
 
       {/* Main content */}

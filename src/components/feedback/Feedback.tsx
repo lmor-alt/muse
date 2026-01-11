@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useGlobalStore } from '../../stores/globalStore';
+import { useExerciseStore } from '../../stores/exerciseStore';
 import { t } from '../../i18n/translations';
 import styles from './Feedback.module.css';
 
@@ -17,8 +18,23 @@ export const Feedback: React.FC<FeedbackProps> = ({
   onNext,
 }) => {
   const { language } = useGlobalStore();
+  const { exerciseState } = useExerciseStore();
   const [showExplanation, setShowExplanation] = useState(false);
 
+  const isPracticeMode = exerciseState?.isPracticeMode ?? true;
+
+  // In quiz mode, just show a neutral "Next" button without feedback
+  if (!isPracticeMode) {
+    return (
+      <div className={styles.feedback}>
+        <button className={styles.nextButton} onClick={onNext} autoFocus>
+          {t('game.next', language)}
+        </button>
+      </div>
+    );
+  }
+
+  // Practice mode: show full feedback with correct/incorrect
   return (
     <div
       className={`${styles.feedback} ${isCorrect ? styles.correct : styles.incorrect}`}
