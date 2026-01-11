@@ -28,7 +28,7 @@ export const ExerciseWrapper: React.FC<ExerciseWrapperProps> = ({
   // Timer state
   const [timeRemaining, setTimeRemaining] = useState<number | null>(timeLimit);
   const [timerVisible, setTimerVisible] = useState(true);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hasTimedOut = useRef(false);
   const wasPaused = useRef(pauseTimer);
 
