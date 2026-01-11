@@ -48,7 +48,7 @@ export const IntervalReading: React.FC<ExerciseProps> = ({ settings }) => {
     },
   };
 
-  const prevQuestionRef = useRef<string | null>(null);
+  const prevIntervalRef = useRef<number | null>(null);
 
   const generateQuestion = useCallback(() => {
     let interval: Interval;
@@ -56,46 +56,48 @@ export const IntervalReading: React.FC<ExerciseProps> = ({ settings }) => {
     let note2: Note;
     let direction: 'above' | 'below';
     let clef: Clef;
-    let questionKey: string;
     let attempts = 0;
 
     // Octave span setting - how many octaves the interval can span
     const octaveSpan = readingSettings.octaveSpan ?? 1;
 
+    // Pick random interval, ensuring it's different from the previous one
     do {
-      // Pick random interval from available intervals
       interval = availableIntervals[Math.floor(Math.random() * availableIntervals.length)];
-
-      // Determine clef
-      if (readingSettings.clef === 'both') {
-        clef = Math.random() > 0.5 ? 'treble' : 'bass';
-      } else {
-        clef = readingSettings.clef;
-      }
-
-      // Generate first note in appropriate range for clef
-      const range = defaultNoteRange[clef];
-      note1 = randomNoteInRange(range, false);
-
-      // Determine direction
-      direction = 'above';
-      if (readingSettings.direction === 'below') {
-        direction = 'below';
-      } else if (readingSettings.direction === 'both') {
-        direction = Math.random() > 0.5 ? 'above' : 'below';
-      }
-
-      // Calculate second note - optionally add extra octaves based on octaveSpan
-      const extraOctaves = octaveSpan > 1 ? Math.floor(Math.random() * octaveSpan) : 0;
-      const extendedInterval: Interval = {
-        ...interval,
-        semitones: interval.semitones + extraOctaves * 12,
-      };
-      note2 = applyInterval(note1, extendedInterval, direction);
-      questionKey = `${clef}-${note1.name}${note1.octave}-${interval.semitones}-${extraOctaves}-${direction}`;
       attempts++;
-    } while (questionKey === prevQuestionRef.current && attempts < 10);
-    prevQuestionRef.current = questionKey;
+    } while (
+      availableIntervals.length > 1 &&
+      interval.semitones === prevIntervalRef.current &&
+      attempts < 10
+    );
+    prevIntervalRef.current = interval.semitones;
+
+    // Determine clef
+    if (readingSettings.clef === 'both') {
+      clef = Math.random() > 0.5 ? 'treble' : 'bass';
+    } else {
+      clef = readingSettings.clef;
+    }
+
+    // Generate first note in appropriate range for clef
+    const range = defaultNoteRange[clef];
+    note1 = randomNoteInRange(range, false);
+
+    // Determine direction
+    direction = 'above';
+    if (readingSettings.direction === 'below') {
+      direction = 'below';
+    } else if (readingSettings.direction === 'both') {
+      direction = Math.random() > 0.5 ? 'above' : 'below';
+    }
+
+    // Calculate second note - optionally add extra octaves based on octaveSpan
+    const extraOctaves = octaveSpan > 1 ? Math.floor(Math.random() * octaveSpan) : 0;
+    const extendedInterval: Interval = {
+      ...interval,
+      semitones: interval.semitones + extraOctaves * 12,
+    };
+    note2 = applyInterval(note1, extendedInterval, direction);
 
     // Generate distractors
     const distractors = getIntervalDistractors(interval, 3);

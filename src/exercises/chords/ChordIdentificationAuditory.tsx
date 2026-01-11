@@ -83,7 +83,7 @@ export const ChordIdentificationAuditory: React.FC<ExerciseProps> = ({ settings 
   // Two-step selection: first pitch, then quality
   const [selectedRoot, setSelectedRoot] = useState<Note | null>(null);
 
-  // In-exercise noteGap control for melodic chords (0-5 seconds)
+  // In-exercise noteGap control for melodic chords (0-2 seconds)
   const [noteGap, setNoteGap] = useState(0.5);
 
   const maxReplays = isPracticeMode ? Infinity : (chordSettings.replayLimit ?? Infinity);
@@ -235,7 +235,7 @@ export const ChordIdentificationAuditory: React.FC<ExerciseProps> = ({ settings 
             <input
               type="range"
               min={0}
-              max={5}
+              max={2}
               step={0.1}
               value={noteGap}
               onChange={(e) => setNoteGap(Number(e.target.value))}

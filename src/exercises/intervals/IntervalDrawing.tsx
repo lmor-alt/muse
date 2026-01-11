@@ -43,40 +43,42 @@ export const IntervalDrawing: React.FC<ExerciseProps> = ({ settings }) => {
     low: { name: 'C' as const, octave: 4, accidental: 'natural' as const },
     high: { name: 'B' as const, octave: 4, accidental: 'natural' as const },
   };
-  const prevQuestionRef = useRef<string | null>(null);
+  const prevIntervalRef = useRef<number | null>(null);
 
   const generateQuestion = useCallback(() => {
     let interval: Interval;
     let dir: 'above' | 'below';
     let note: Note;
-    let questionKey: string;
     let attempts = 0;
     let extraOctaves = 0;
 
     // Octave span setting - how many octaves the interval can span
     const octaveSpan = drawingSettings.octaveSpan ?? 1;
 
+    // Pick random interval, ensuring it's different from the previous one
     do {
-      // Pick random interval
       interval = availableIntervals[Math.floor(Math.random() * availableIntervals.length)];
-
-      // Determine direction
-      dir = 'above';
-      if (drawingSettings.direction === 'below') {
-        dir = 'below';
-      } else if (drawingSettings.direction === 'both') {
-        dir = Math.random() > 0.5 ? 'above' : 'below';
-      }
-
-      // Generate start note
-      note = randomNoteInRange(defaultNoteRange, false);
-
-      // Calculate extra octaves based on octaveSpan setting
-      extraOctaves = octaveSpan > 1 ? Math.floor(Math.random() * octaveSpan) : 0;
-      questionKey = `${note.name}${note.octave}-${interval.semitones}-${extraOctaves}-${dir}`;
       attempts++;
-    } while (questionKey === prevQuestionRef.current && attempts < 10);
-    prevQuestionRef.current = questionKey;
+    } while (
+      availableIntervals.length > 1 &&
+      interval.semitones === prevIntervalRef.current &&
+      attempts < 10
+    );
+    prevIntervalRef.current = interval.semitones;
+
+    // Determine direction
+    dir = 'above';
+    if (drawingSettings.direction === 'below') {
+      dir = 'below';
+    } else if (drawingSettings.direction === 'both') {
+      dir = Math.random() > 0.5 ? 'above' : 'below';
+    }
+
+    // Generate start note
+    note = randomNoteInRange(defaultNoteRange, false);
+
+    // Calculate extra octaves based on octaveSpan setting
+    extraOctaves = octaveSpan > 1 ? Math.floor(Math.random() * octaveSpan) : 0;
 
     // Extend interval with extra octaves
     const extendedInterval: Interval = {

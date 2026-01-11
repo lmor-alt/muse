@@ -71,7 +71,7 @@ export const IntervalQuiz: React.FC<ExerciseProps> = ({ settings }) => {
     ? quizSettings.modules
     : ['ear', 'read', 'write'] as IntervalQuizModule[];
 
-  const prevQuestionRef = useRef<string | null>(null);
+  const prevIntervalRef = useRef<number | null>(null);
 
   // Note ranges for different contexts
   const noteRanges = {
@@ -131,57 +131,59 @@ export const IntervalQuiz: React.FC<ExerciseProps> = ({ settings }) => {
     let note2: Note;
     let dir: 'above' | 'below' = 'above';
     let clef: Clef = 'treble';
-    let questionKey: string;
     let attempts = 0;
 
     // Octave span setting - how many octaves the interval can span
     const octaveSpan = quizSettings.octaveSpan ?? 1;
 
+    // Pick random interval, ensuring it's different from the previous one
     do {
-      // Pick random interval
       interval = availableIntervals[Math.floor(Math.random() * availableIntervals.length)];
+      attempts++;
+    } while (
+      availableIntervals.length > 1 &&
+      interval.semitones === prevIntervalRef.current &&
+      attempts < 10
+    );
+    prevIntervalRef.current = interval.semitones;
 
-      // Generate based on module type
-      if (module === 'ear') {
-        note1 = randomNoteInRange(noteRanges.ear, false);
+    // Generate based on module type
+    if (module === 'ear') {
+      note1 = randomNoteInRange(noteRanges.ear, false);
 
-        // Determine direction for ear
-        if (quizSettings.melodicOrHarmonic !== 'harmonic') {
-          dir = Math.random() > 0.5 ? 'above' : 'below';
-        }
-      } else if (module === 'read') {
-        // Determine clef for reading
-        if (quizSettings.readingClef === 'both') {
-          clef = Math.random() > 0.5 ? 'treble' : 'bass';
-        } else {
-          clef = quizSettings.readingClef;
-        }
-
-        const range = noteRanges.read[clef];
-        note1 = randomNoteInRange(range, false);
+      // Determine direction for ear
+      if (quizSettings.melodicOrHarmonic !== 'harmonic') {
         dir = Math.random() > 0.5 ? 'above' : 'below';
+      }
+    } else if (module === 'read') {
+      // Determine clef for reading
+      if (quizSettings.readingClef === 'both') {
+        clef = Math.random() > 0.5 ? 'treble' : 'bass';
       } else {
-        // Write module
-        note1 = randomNoteInRange(noteRanges.write, false);
-
-        if (quizSettings.writingDirection === 'below') {
-          dir = 'below';
-        } else if (quizSettings.writingDirection === 'both') {
-          dir = Math.random() > 0.5 ? 'above' : 'below';
-        }
+        clef = quizSettings.readingClef;
       }
 
-      // Calculate second note - optionally add extra octaves based on octaveSpan
-      const extraOctaves = octaveSpan > 1 ? Math.floor(Math.random() * octaveSpan) : 0;
-      const extendedInterval: Interval = {
-        ...interval,
-        semitones: interval.semitones + extraOctaves * 12,
-      };
-      note2 = applyInterval(note1, extendedInterval, dir);
-      questionKey = `${module}-${note1.name}${note1.octave}-${interval.semitones}-${extraOctaves}-${dir}`;
-      attempts++;
-    } while (questionKey === prevQuestionRef.current && attempts < 10);
-    prevQuestionRef.current = questionKey;
+      const range = noteRanges.read[clef];
+      note1 = randomNoteInRange(range, false);
+      dir = Math.random() > 0.5 ? 'above' : 'below';
+    } else {
+      // Write module
+      note1 = randomNoteInRange(noteRanges.write, false);
+
+      if (quizSettings.writingDirection === 'below') {
+        dir = 'below';
+      } else if (quizSettings.writingDirection === 'both') {
+        dir = Math.random() > 0.5 ? 'above' : 'below';
+      }
+    }
+
+    // Calculate second note - optionally add extra octaves based on octaveSpan
+    const extraOctaves = octaveSpan > 1 ? Math.floor(Math.random() * octaveSpan) : 0;
+    const extendedInterval: Interval = {
+      ...interval,
+      semitones: interval.semitones + extraOctaves * 12,
+    };
+    note2 = applyInterval(note1, extendedInterval, dir);
 
     setCurrentInterval(interval);
     setFirstNote(note1);

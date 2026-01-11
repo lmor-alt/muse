@@ -35,7 +35,7 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
   const [replaysUsed, setReplaysUsed] = useState(0);
   const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
 
-  // In-exercise noteGap control (0-5 seconds, stored in seconds)
+  // In-exercise noteGap control (0-2 seconds)
   const [noteGap, setNoteGap] = useState(0.5);
 
   // Track if current playback is melodic (for showing slider)
@@ -53,14 +53,13 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
     low: { name: 'C' as const, octave: 3, accidental: 'natural' as const },
     high: { name: 'C' as const, octave: 5, accidental: 'natural' as const },
   };
-  const prevQuestionRef = useRef<string | null>(null);
+  const prevIntervalRef = useRef<number | null>(null);
 
   const generateQuestion = useCallback(() => {
     let interval: Interval;
     let note1: Note;
     let note2: Note;
     let direction: 'above' | 'below';
-    let questionKey: string;
     let attempts = 0;
 
     // Octave span setting - how many octaves the interval can span
@@ -69,29 +68,33 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
     do {
       // Pick random interval from available intervals
       interval = availableIntervals[Math.floor(Math.random() * availableIntervals.length)];
-
-      // Generate first note
-      note1 = randomNoteInRange(defaultNoteRange, false);
-
-      // Determine direction
-      direction = 'above';
-      if (intervalSettings.direction === 'descending') {
-        direction = 'below';
-      } else if (intervalSettings.direction === 'both') {
-        direction = Math.random() > 0.5 ? 'above' : 'below';
-      }
-
-      // Calculate second note - optionally add extra octaves based on octaveSpan
-      const extraOctaves = octaveSpan > 1 ? Math.floor(Math.random() * octaveSpan) : 0;
-      const extendedInterval: Interval = {
-        ...interval,
-        semitones: interval.semitones + extraOctaves * 12,
-      };
-      note2 = applyInterval(note1, extendedInterval, direction);
-      questionKey = `${note1.name}${note1.octave}-${interval.semitones}-${extraOctaves}-${direction}`;
       attempts++;
-    } while (questionKey === prevQuestionRef.current && attempts < 10);
-    prevQuestionRef.current = questionKey;
+      // Ensure we don't get the same interval twice in a row (if more than one available)
+    } while (
+      availableIntervals.length > 1 &&
+      interval.semitones === prevIntervalRef.current &&
+      attempts < 10
+    );
+    prevIntervalRef.current = interval.semitones;
+
+    // Generate first note
+    note1 = randomNoteInRange(defaultNoteRange, false);
+
+    // Determine direction
+    direction = 'above';
+    if (intervalSettings.direction === 'descending') {
+      direction = 'below';
+    } else if (intervalSettings.direction === 'both') {
+      direction = Math.random() > 0.5 ? 'above' : 'below';
+    }
+
+    // Calculate second note - optionally add extra octaves based on octaveSpan
+    const extraOctaves = octaveSpan > 1 ? Math.floor(Math.random() * octaveSpan) : 0;
+    const extendedInterval: Interval = {
+      ...interval,
+      semitones: interval.semitones + extraOctaves * 12,
+    };
+    note2 = applyInterval(note1, extendedInterval, direction);
 
     // Generate distractors
     const distractors = getIntervalDistractors(interval, 3);
@@ -191,7 +194,7 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
             <input
               type="range"
               min={0}
-              max={5}
+              max={2}
               step={0.1}
               value={noteGap}
               onChange={(e) => setNoteGap(Number(e.target.value))}
