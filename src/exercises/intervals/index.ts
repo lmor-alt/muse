@@ -20,7 +20,7 @@ const defaultIntervalIdentificationSettings: IntervalIdentificationSettings = {
   questionCount: 10,
   timeLimit: null,
   replayLimit: 3,
-  intervals: ALL_INTERVALS.filter((i) => i.semitones <= 7), // Up to perfect 5th
+  intervals: ALL_INTERVALS.filter((i) => i.semitones <= 7 && i.semitones > 0), // Up to perfect 5th, excluding prime
   melodicOrHarmonic: 'melodic',
   direction: 'ascending',
   noteGap: 600, // milliseconds between notes in melodic mode
