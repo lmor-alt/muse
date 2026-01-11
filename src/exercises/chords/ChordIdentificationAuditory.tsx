@@ -139,6 +139,9 @@ export const ChordIdentificationAuditory: React.FC<ExerciseProps> = ({ settings 
   const handlePlay = async () => {
     if (showFeedback || chordNotes.length === 0) return;
 
+    // Ensure audio is initialized before timing starts (prevents first-play timing issues)
+    await audioEngine.initialize();
+
     if (voicing === 'harmonic') {
       await audioEngine.playChordBlock(chordNotes, 1);
     } else {

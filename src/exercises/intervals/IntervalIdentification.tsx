@@ -47,7 +47,7 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
   const maxReplays = isPracticeMode ? Infinity : (intervalSettings.replayLimit ?? Infinity);
   const availableIntervals = intervalSettings.intervals.length > 0
     ? intervalSettings.intervals
-    : ALL_INTERVALS.filter((i) => i.semitones <= 12);
+    : ALL_INTERVALS.filter((i) => i.semitones <= 12 && i.semitones > 0);
 
   const defaultNoteRange = {
     low: { name: 'C' as const, octave: 3, accidental: 'natural' as const },
@@ -125,6 +125,9 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
   // No auto-play - user must press button to hear
   const handlePlay = async () => {
     if (!firstNote || !secondNote || showFeedback) return;
+
+    // Ensure audio is initialized before timing starts (prevents first-play timing issues)
+    await audioEngine.initialize();
 
     const isMelodic = intervalSettings.melodicOrHarmonic === 'melodic' ||
       (intervalSettings.melodicOrHarmonic === 'both' && Math.random() > 0.5);
