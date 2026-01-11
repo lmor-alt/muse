@@ -36,7 +36,7 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
   const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
 
   // In-exercise noteGap control (0-5 seconds, stored in seconds)
-  const [noteGap, setNoteGap] = useState(2);
+  const [noteGap, setNoteGap] = useState(0.5);
 
   // Track if current playback is melodic (for showing slider)
   const [isMelodicPlayback, setIsMelodicPlayback] = useState(

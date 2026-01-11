@@ -84,7 +84,7 @@ export const ChordIdentificationAuditory: React.FC<ExerciseProps> = ({ settings 
   const [selectedRoot, setSelectedRoot] = useState<Note | null>(null);
 
   // In-exercise noteGap control for melodic chords (0-5 seconds)
-  const [noteGap, setNoteGap] = useState(2);
+  const [noteGap, setNoteGap] = useState(0.5);
 
   const maxReplays = isPracticeMode ? Infinity : (chordSettings.replayLimit ?? Infinity);
   const voicing = chordSettings.voicing || 'harmonic';
@@ -210,8 +210,11 @@ export const ChordIdentificationAuditory: React.FC<ExerciseProps> = ({ settings 
   // Always use English note names
   const rootDisplay = `${rootNote.name}${rootNote.accidental === 'sharp' ? '♯' : rootNote.accidental === 'flat' ? '♭' : ''}`;
 
+  // Only use timeLimit in quiz mode
+  const timeLimit = isPracticeMode ? null : (chordSettings.timeLimit ?? null);
+
   return (
-    <ExerciseWrapper onSkip={generateQuestion}>
+    <ExerciseWrapper onSkip={generateQuestion} timeLimit={timeLimit} pauseTimer={showFeedback}>
       <div className={styles.exercise}>
         <p className={styles.instruction}>{t('instruction.identifyChord', language)}</p>
 

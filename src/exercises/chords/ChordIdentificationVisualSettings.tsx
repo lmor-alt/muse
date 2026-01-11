@@ -65,20 +65,38 @@ export const ChordIdentificationVisualSettings: React.FC<ExerciseSettingsProps> 
 
       {/* Question count - only show for quiz mode */}
       {!isPracticeMode && (
-        <div className={styles.field}>
-          <label className={styles.label}>{t('settings.questionCount', language)}</label>
-          <div className={styles.buttonGroup}>
-            {[10, 20, 30].map((count) => (
-              <button
-                key={count}
-                className={`${styles.optionButton} ${chordSettings.questionCount === count ? styles.active : ''}`}
-                onClick={() => updateSetting('questionCount', count)}
-              >
-                {count}
-              </button>
-            ))}
+        <>
+          <div className={styles.field}>
+            <label className={styles.label}>{t('settings.questionCount', language)}</label>
+            <div className={styles.buttonGroup}>
+              {[10, 20, 30].map((count) => (
+                <button
+                  key={count}
+                  className={`${styles.optionButton} ${chordSettings.questionCount === count ? styles.active : ''}`}
+                  onClick={() => updateSetting('questionCount', count)}
+                >
+                  {count}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+
+          {/* Time limit - only show for quiz mode */}
+          <div className={styles.field}>
+            <label className={styles.label}>{t('settings.timeLimit', language)}</label>
+            <div className={styles.buttonGroup}>
+              {[null, 5, 10, 15].map((limit) => (
+                <button
+                  key={limit ?? 'none'}
+                  className={`${styles.optionButton} ${chordSettings.timeLimit === limit ? styles.active : ''}`}
+                  onClick={() => updateSetting('timeLimit', limit)}
+                >
+                  {limit === null ? t('value.off', language) : `${limit}s`}
+                </button>
+              ))}
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

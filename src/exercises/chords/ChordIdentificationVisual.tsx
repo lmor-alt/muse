@@ -64,8 +64,9 @@ function buildChord(root: Note, quality: ChordQuality): Note[] {
 
 export const ChordIdentificationVisual: React.FC<ExerciseProps> = ({ settings }) => {
   const { language } = useGlobalStore();
-  const { recordAnswer } = useExerciseStore();
+  const { recordAnswer, exerciseState } = useExerciseStore();
 
+  const isPracticeMode = exerciseState?.isPracticeMode ?? true;
   const chordSettings = settings as ChordIdentificationVisualSettings;
 
   const [rootNote, setRootNote] = useState<Note | null>(null);
@@ -163,8 +164,11 @@ export const ChordIdentificationVisual: React.FC<ExerciseProps> = ({ settings })
   // Always use English note names
   const rootDisplay = `${rootNote.name}${rootNote.accidental === 'sharp' ? '♯' : rootNote.accidental === 'flat' ? '♭' : ''}`;
 
+  // Only use timeLimit in quiz mode
+  const timeLimit = isPracticeMode ? null : (chordSettings.timeLimit ?? null);
+
   return (
-    <ExerciseWrapper onSkip={generateQuestion}>
+    <ExerciseWrapper onSkip={generateQuestion} timeLimit={timeLimit} pauseTimer={showFeedback}>
       <div className={styles.exercise}>
         <p className={styles.instruction}>{t('instruction.identifyChord', language)}</p>
 

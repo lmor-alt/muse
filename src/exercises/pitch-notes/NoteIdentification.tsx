@@ -16,8 +16,9 @@ export const NoteIdentification: React.FC<ExerciseProps> = ({
   inputMethod,
 }) => {
   const { language } = useGlobalStore();
-  const { recordAnswer } = useExerciseStore();
+  const { recordAnswer, exerciseState } = useExerciseStore();
 
+  const isPracticeMode = exerciseState?.isPracticeMode ?? true;
   const noteSettings = settings as NoteIdentificationSettings;
 
   const [currentNote, setCurrentNote] = useState<Note | null>(null);
@@ -91,8 +92,11 @@ export const NoteIdentification: React.FC<ExerciseProps> = ({
 
   if (!currentNote) return null;
 
+  // Only use timeLimit in quiz mode
+  const timeLimit = isPracticeMode ? null : (noteSettings.timeLimit ?? null);
+
   return (
-    <ExerciseWrapper onSkip={generateQuestion}>
+    <ExerciseWrapper onSkip={generateQuestion} timeLimit={timeLimit} pauseTimer={showFeedback}>
       <div className={styles.exercise}>
         <p className={styles.instruction}>{t('instruction.identifyNote', language)}</p>
 
