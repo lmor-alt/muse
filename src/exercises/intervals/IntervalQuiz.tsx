@@ -194,14 +194,20 @@ export const IntervalQuiz: React.FC<ExerciseProps> = ({ settings }) => {
     setQuestionStartTime(Date.now());
 
     // Reset module-specific state
+    // In quiz mode: show all selected intervals as options
+    // In practice mode: show 4 options (1 correct + 3 distractors)
     if (module === 'ear') {
-      const distractors = getIntervalDistractors(interval, 3);
-      setOptions(shuffle([interval, ...distractors]));
+      const options = isPracticeMode
+        ? shuffle([interval, ...getIntervalDistractors(interval, 3, availableIntervals)])
+        : shuffle([...availableIntervals]);
+      setOptions(options);
       setReplaysUsed(0);
       setHasPlayedOnce(false);
     } else if (module === 'read') {
-      const distractors = getIntervalDistractors(interval, 3);
-      setOptions(shuffle([interval, ...distractors]));
+      const options = isPracticeMode
+        ? shuffle([interval, ...getIntervalDistractors(interval, 3, availableIntervals)])
+        : shuffle([...availableIntervals]);
+      setOptions(options);
     } else {
       setDrawnNotes([]);
       setSelectedAccidental('natural');
@@ -226,7 +232,8 @@ export const IntervalQuiz: React.FC<ExerciseProps> = ({ settings }) => {
       await new Promise((resolve) => setTimeout(resolve, noteGap));
       await audioEngine.playNote(secondNote, 0.6);
     } else {
-      await audioEngine.playInterval(firstNote, secondNote);
+      // Harmonic mode: play both notes simultaneously
+      await audioEngine.playInterval(firstNote, secondNote, 'harmonic');
     }
 
     if (!hasPlayedOnce) {

@@ -199,7 +199,7 @@ export const IntervalDrawing: React.FC<ExerciseProps> = ({ settings }) => {
                   clef="treble"
                   notes={[startNote, correctNote]}
                   width={200}
-                  height={100}
+                  height={130}
                 />
               </div>
             )}

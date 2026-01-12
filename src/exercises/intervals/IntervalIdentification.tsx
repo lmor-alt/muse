@@ -96,9 +96,11 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
     };
     note2 = applyInterval(note1, extendedInterval, direction);
 
-    // Generate distractors
-    const distractors = getIntervalDistractors(interval, 3);
-    const allOptions = shuffle([interval, ...distractors]);
+    // In quiz mode: show all selected intervals as options
+    // In practice mode: show 4 options (1 correct + 3 distractors)
+    const allOptions = isPracticeMode
+      ? shuffle([interval, ...getIntervalDistractors(interval, 3, availableIntervals)])
+      : shuffle([...availableIntervals]);
 
     setCurrentInterval(interval);
     setFirstNote(note1);
@@ -139,7 +141,8 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
       await new Promise((resolve) => setTimeout(resolve, gapMs));
       await audioEngine.playNote(secondNote, 0.6);
     } else {
-      await audioEngine.playInterval(firstNote, secondNote);
+      // Harmonic mode: play both notes simultaneously
+      await audioEngine.playInterval(firstNote, secondNote, 'harmonic');
     }
 
     if (!hasPlayedOnce) {

@@ -229,7 +229,16 @@ export function getIntervalSymbol(
 }
 
 // Generate intelligent distractors for intervals
-export function getIntervalDistractors(correct: Interval, count: number): Interval[] {
+export function getIntervalDistractors(
+  correct: Interval,
+  count: number,
+  availableIntervals?: Interval[]
+): Interval[] {
+  // Use available intervals if provided with enough options, otherwise fall back to ALL_INTERVALS
+  const intervalPool = availableIntervals && availableIntervals.length > 1
+    ? availableIntervals
+    : ALL_INTERVALS;
+
   const distractors: Interval[] = [];
   const confusionPairs: [number, number][] = [
     [3, 4], // minor/major 3rd
@@ -239,19 +248,19 @@ export function getIntervalDistractors(correct: Interval, count: number): Interv
     [10, 11], // minor/major 7th
   ];
 
-  // First, add commonly confused intervals
+  // First, add commonly confused intervals (only if in the available pool)
   for (const [a, b] of confusionPairs) {
     if (correct.semitones === a) {
-      const confused = ALL_INTERVALS.find((i) => i.semitones === b);
+      const confused = intervalPool.find((i) => i.semitones === b);
       if (confused && distractors.length < count) distractors.push(confused);
     } else if (correct.semitones === b) {
-      const confused = ALL_INTERVALS.find((i) => i.semitones === a);
+      const confused = intervalPool.find((i) => i.semitones === a);
       if (confused && distractors.length < count) distractors.push(confused);
     }
   }
 
-  // Fill remaining with nearby intervals
-  const sorted = [...ALL_INTERVALS].sort(
+  // Fill remaining with nearby intervals from the pool
+  const sorted = [...intervalPool].sort(
     (a, b) => Math.abs(a.semitones - correct.semitones) - Math.abs(b.semitones - correct.semitones)
   );
 

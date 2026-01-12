@@ -20,7 +20,9 @@ import styles from './IntervalReading.module.css';
 
 export const IntervalReading: React.FC<ExerciseProps> = ({ settings }) => {
   const { language } = useGlobalStore();
-  const { recordAnswer } = useExerciseStore();
+  const { recordAnswer, exerciseState } = useExerciseStore();
+
+  const isPracticeMode = exerciseState?.isPracticeMode ?? true;
 
   const readingSettings = settings as IntervalReadingSettings;
 
@@ -99,9 +101,11 @@ export const IntervalReading: React.FC<ExerciseProps> = ({ settings }) => {
     };
     note2 = applyInterval(note1, extendedInterval, direction);
 
-    // Generate distractors
-    const distractors = getIntervalDistractors(interval, 3);
-    const allOptions = shuffle([interval, ...distractors]);
+    // In quiz mode: show all selected intervals as options
+    // In practice mode: show 4 options (1 correct + 3 distractors)
+    const allOptions = isPracticeMode
+      ? shuffle([interval, ...getIntervalDistractors(interval, 3, availableIntervals)])
+      : shuffle([...availableIntervals]);
 
     setCurrentInterval(interval);
     setFirstNote(note1);
@@ -110,7 +114,7 @@ export const IntervalReading: React.FC<ExerciseProps> = ({ settings }) => {
     setOptions(allOptions);
     setShowFeedback(false);
     setQuestionStartTime(Date.now());
-  }, [readingSettings, availableIntervals]);
+  }, [readingSettings, availableIntervals, isPracticeMode]);
 
   useEffect(() => {
     generateQuestion();
