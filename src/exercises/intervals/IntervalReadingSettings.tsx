@@ -1,8 +1,12 @@
-import React from 'react';
-import type { ExerciseSettingsProps, IntervalReadingSettings as Settings } from '../../types';
+import React, { useState } from 'react';
+import type { ExerciseSettingsProps, IntervalReadingSettings as Settings, Interval } from '../../types';
 import { useGlobalStore } from '../../stores/globalStore';
-import { t } from '../../i18n/translations';
+import { t, type TranslationKey } from '../../i18n/translations';
+import { ALL_INTERVALS, getIntervalKey } from '../../utils/musicTheory';
 import styles from './ExerciseSettings.module.css';
+import advancedStyles from './IntervalQuizSettings.module.css';
+
+const COMMON_INTERVALS = ALL_INTERVALS.filter((i) => i.semitones <= 12 && i.semitones > 0);
 
 export const IntervalReadingSettings: React.FC<ExerciseSettingsProps> = ({
   settings,
@@ -11,9 +15,39 @@ export const IntervalReadingSettings: React.FC<ExerciseSettingsProps> = ({
 }) => {
   const { language } = useGlobalStore();
   const readingSettings = settings as Settings;
+  const [advancedOpen, setAdvancedOpen] = useState(false);
 
   const updateSetting = <K extends keyof Settings>(key: K, value: Settings[K]) => {
     onChange({ ...readingSettings, [key]: value });
+  };
+
+  const toggleInterval = (interval: Interval) => {
+    const current = readingSettings.intervals || [];
+    const exists = current.some((i) => i.semitones === interval.semitones);
+    if (exists) {
+      // Don't allow removing if it's the only one
+      if (current.length > 1) {
+        updateSetting('intervals', current.filter((i) => i.semitones !== interval.semitones));
+      }
+    } else {
+      updateSetting('intervals', [...current, interval]);
+    }
+  };
+
+  const isIntervalEnabled = (interval: Interval) => {
+    const intervals = readingSettings.intervals || [];
+    // If empty, all are enabled
+    if (intervals.length === 0) return true;
+    return intervals.some((i) => i.semitones === interval.semitones);
+  };
+
+  const selectAllIntervals = () => {
+    updateSetting('intervals', COMMON_INTERVALS);
+  };
+
+  const selectNoneIntervals = () => {
+    // Keep at least one
+    updateSetting('intervals', [COMMON_INTERVALS[0]]);
   };
 
   return (
@@ -99,6 +133,56 @@ export const IntervalReadingSettings: React.FC<ExerciseSettingsProps> = ({
             </div>
           </div>
         </>
+      )}
+
+      {/* Advanced Settings Toggle */}
+      <button
+        className={advancedStyles.advancedToggle}
+        onClick={() => setAdvancedOpen(!advancedOpen)}
+        aria-expanded={advancedOpen}
+      >
+        <span>{t('settings.selectIntervals', language)}</span>
+        <span className={`${advancedStyles.chevron} ${advancedOpen ? advancedStyles.open : ''}`}>
+          ›
+        </span>
+      </button>
+
+      {/* Advanced Settings Panel */}
+      {advancedOpen && (
+        <div className={advancedStyles.advancedPanel}>
+          {/* Intervals Selection */}
+          <div className={styles.field}>
+            <div className={advancedStyles.intervalHeader}>
+              <label className={styles.label}>{t('settings.intervals', language)}</label>
+              <div className={advancedStyles.intervalActions}>
+                <button
+                  className={advancedStyles.textButton}
+                  onClick={selectAllIntervals}
+                >
+                  {t('action.selectAll', language)}
+                </button>
+                <span className={advancedStyles.divider}>|</span>
+                <button
+                  className={advancedStyles.textButton}
+                  onClick={selectNoneIntervals}
+                >
+                  {t('action.selectNone', language)}
+                </button>
+              </div>
+            </div>
+            <div className={advancedStyles.intervalGrid}>
+              {COMMON_INTERVALS.map((interval) => (
+                <button
+                  key={interval.semitones}
+                  className={`${advancedStyles.intervalChip} ${isIntervalEnabled(interval) ? advancedStyles.active : ''}`}
+                  onClick={() => toggleInterval(interval)}
+                >
+                  {t(getIntervalKey(interval) as TranslationKey, language)}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
