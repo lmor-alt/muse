@@ -9,7 +9,6 @@ import {
   getIntervalKey,
   getIntervalAbbreviation,
   getIntervalDistractors,
-  shuffle,
   ALL_INTERVALS,
 } from '../../utils/musicTheory';
 import { Staff } from '../../components/staff/Staff';
@@ -103,9 +102,10 @@ export const IntervalReading: React.FC<ExerciseProps> = ({ settings }) => {
 
     // In quiz mode: show all selected intervals as options
     // In practice mode: show 4 options (1 correct + 3 distractors)
+    // Sort by semitones from low to high for consistent ordering
     const allOptions = isPracticeMode
-      ? shuffle([interval, ...getIntervalDistractors(interval, 3, availableIntervals)])
-      : shuffle([...availableIntervals]);
+      ? [interval, ...getIntervalDistractors(interval, 3, availableIntervals)].sort((a, b) => a.semitones - b.semitones)
+      : [...availableIntervals].sort((a, b) => a.semitones - b.semitones);
 
     setCurrentInterval(interval);
     setFirstNote(note1);

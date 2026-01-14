@@ -18,7 +18,6 @@ import {
   getIntervalKey,
   getIntervalAbbreviation,
   getIntervalDistractors,
-  shuffle,
   ALL_INTERVALS,
 } from '../../utils/musicTheory';
 import { audioEngine } from '../../audio/audioEngine';
@@ -196,17 +195,18 @@ export const IntervalQuiz: React.FC<ExerciseProps> = ({ settings }) => {
     // Reset module-specific state
     // In quiz mode: show all selected intervals as options
     // In practice mode: show 4 options (1 correct + 3 distractors)
+    // Sort by semitones from low to high for consistent ordering
     if (module === 'ear') {
       const options = isPracticeMode
-        ? shuffle([interval, ...getIntervalDistractors(interval, 3, availableIntervals)])
-        : shuffle([...availableIntervals]);
+        ? [interval, ...getIntervalDistractors(interval, 3, availableIntervals)].sort((a, b) => a.semitones - b.semitones)
+        : [...availableIntervals].sort((a, b) => a.semitones - b.semitones);
       setOptions(options);
       setReplaysUsed(0);
       setHasPlayedOnce(false);
     } else if (module === 'read') {
       const options = isPracticeMode
-        ? shuffle([interval, ...getIntervalDistractors(interval, 3, availableIntervals)])
-        : shuffle([...availableIntervals]);
+        ? [interval, ...getIntervalDistractors(interval, 3, availableIntervals)].sort((a, b) => a.semitones - b.semitones)
+        : [...availableIntervals].sort((a, b) => a.semitones - b.semitones);
       setOptions(options);
     } else {
       setDrawnNotes([]);
