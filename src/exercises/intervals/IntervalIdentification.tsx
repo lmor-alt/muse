@@ -9,7 +9,6 @@ import {
   getIntervalKey,
   getIntervalAbbreviation,
   getIntervalDistractors,
-  shuffle,
   ALL_INTERVALS,
 } from '../../utils/musicTheory';
 import { audioEngine } from '../../audio/audioEngine';
@@ -77,8 +76,10 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
     );
     prevIntervalRef.current = interval.semitones;
 
-    // Generate first note
-    note1 = randomNoteInRange(defaultNoteRange, false);
+    // Generate first note - use fixed C3 for 1 octave span, random for larger spans
+    note1 = octaveSpan === 1
+      ? { name: 'C' as const, octave: 3, accidental: 'natural' as const }
+      : randomNoteInRange(defaultNoteRange, false);
 
     // Determine direction
     direction = 'above';
@@ -98,9 +99,10 @@ export const IntervalIdentification: React.FC<ExerciseProps> = ({ settings }) =>
 
     // In quiz mode: show all selected intervals as options
     // In practice mode: show 4 options (1 correct + 3 distractors)
+    // Sort by semitones from low to high for consistent ordering
     const allOptions = isPracticeMode
-      ? shuffle([interval, ...getIntervalDistractors(interval, 3, availableIntervals)])
-      : shuffle([...availableIntervals]);
+      ? [interval, ...getIntervalDistractors(interval, 3, availableIntervals)].sort((a, b) => a.semitones - b.semitones)
+      : [...availableIntervals].sort((a, b) => a.semitones - b.semitones);
 
     setCurrentInterval(interval);
     setFirstNote(note1);

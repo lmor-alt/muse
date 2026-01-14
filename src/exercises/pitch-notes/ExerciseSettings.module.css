@@ -91,3 +91,48 @@
   outline-offset: -2px;
   border-radius: var(--radius-sm);
 }
+
+.numberInput {
+  width: 80px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-secondary);
+  border: 2px solid var(--sand-muted);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink);
+  text-align: center;
+  transition: border-color var(--transition-fast);
+}
+
+.numberInput:focus {
+  outline: none;
+  border-color: var(--brass);
+}
+
+.numberInput::-webkit-outer-spin-button,
+.numberInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.numberInput[type=number] {
+  -moz-appearance: textfield;
+}
+
+.select {
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-secondary);
+  border: 2px solid var(--sand-muted);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--brass);
+}

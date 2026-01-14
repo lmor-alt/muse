@@ -66,8 +66,8 @@ export const PitchHearing: React.FC<ExerciseProps> = ({
   };
 
   const handleReferencePitch = async () => {
-    // Play A4 (440Hz) as reference
-    const referenceNote: Note = { name: 'A', octave: 4, accidental: 'natural' };
+    // Play C4 as reference
+    const referenceNote: Note = { name: 'C', octave: 4, accidental: 'natural' };
     await audioEngine.playNote(referenceNote, 1);
   };
 
@@ -141,7 +141,7 @@ export const PitchHearing: React.FC<ExerciseProps> = ({
             className={styles.referenceButton}
             onClick={handleReferencePitch}
           >
-            {t('exercise.referencePitch', language)} ({getNoteName('A', language)})
+            {t('exercise.referencePitch', language)} ({getNoteName('C', language)})
           </button>
         )}
 

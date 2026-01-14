@@ -3,7 +3,18 @@ import type { ExerciseProps, Note, ChordQuality, ChordIdentificationAuditorySett
 import { useGlobalStore } from '../../stores/globalStore';
 import { useExerciseStore } from '../../stores/exerciseStore';
 import { t } from '../../i18n/translations';
-import { randomNoteInRange, getChordDistractors, getChordAbbreviation, shuffle } from '../../utils/musicTheory';
+import { randomNoteInRange, getChordDistractors, getChordAbbreviation } from '../../utils/musicTheory';
+
+// Sort order for chord qualities: triads first, then 7th chords
+const CHORD_QUALITY_ORDER: Record<ChordQuality, number> = {
+  major: 0,
+  minor: 1,
+  diminished: 2,
+  augmented: 3,
+  major7: 4,
+  minor7: 5,
+  dominant7: 6,
+};
 import { audioEngine } from '../../audio/audioEngine';
 import { Feedback } from '../../components/feedback/Feedback';
 import { ExerciseWrapper } from '../../components/exercise/ExerciseWrapper';
@@ -117,7 +128,8 @@ export const ChordIdentificationAuditory: React.FC<ExerciseProps> = ({ settings 
     prevQuestionRef.current = questionKey;
 
     const distractors = getChordDistractors(quality, 3, availableQualities);
-    const allOptions = shuffle([quality, ...distractors]);
+    // Sort options by chord quality order (triads first, then 7th chords)
+    const allOptions = [quality, ...distractors].sort((a, b) => CHORD_QUALITY_ORDER[a] - CHORD_QUALITY_ORDER[b]);
 
     setRootNote(root);
     setChordQuality(quality);
@@ -275,6 +287,7 @@ export const ChordIdentificationAuditory: React.FC<ExerciseProps> = ({ settings 
                 includeAccidentals={false}
                 highlightedNote={selectedRoot}
                 disabled={showFeedback}
+                useEnglishNotes
               />
             </div>
 

@@ -68,17 +68,17 @@ export const ChordIdentificationVisualSettings: React.FC<ExerciseSettingsProps> 
         <>
           <div className={styles.field}>
             <label className={styles.label}>{t('settings.questionCount', language)}</label>
-            <div className={styles.buttonGroup}>
-              {[10, 20, 30].map((count) => (
-                <button
-                  key={count}
-                  className={`${styles.optionButton} ${chordSettings.questionCount === count ? styles.active : ''}`}
-                  onClick={() => updateSetting('questionCount', count)}
-                >
-                  {count}
-                </button>
-              ))}
-            </div>
+            <input
+              type="number"
+              className={styles.numberInput}
+              min={1}
+              max={100}
+              value={typeof chordSettings.questionCount === 'number' ? chordSettings.questionCount : 20}
+              onChange={(e) => {
+                const value = Math.max(1, Math.min(100, parseInt(e.target.value) || 20));
+                updateSetting('questionCount', value);
+              }}
+            />
           </div>
 
           {/* Time limit - only show for quiz mode */}

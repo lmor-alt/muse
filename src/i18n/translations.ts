@@ -496,7 +496,7 @@ const translations = {
     'instruction.hearFirstPitch': 'Druk om de eerste toon te horen',
     'instruction.hearSecondPitch': 'Druk nu om de tweede toon te horen',
     'instruction.hearNextPitch': 'Druk om de volgende toon te horen',
-    'instruction.higherOrLower': 'Is de tweede noot hoger of lager?',
+    'instruction.higherOrLower': 'Is de tweede toon hoger of lager?',
     'instruction.identifyInterval': 'Welk interval is dit?',
     'instruction.identifyIntervalVisual': 'Welk interval zie je?',
     'instruction.identifyThird': 'Grote of kleine terts?',

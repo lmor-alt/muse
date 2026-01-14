@@ -26,7 +26,8 @@ export const categories: Category[] = [
     id: 'chords',
     nameKey: 'category.chords',
     icon: '🎹',
-    exercises: ['chord-drawing', 'chord-identification-visual', 'chord-identification-auditory'],
+    // Order: auditory → visual identification → visual drawing (consistent with intervals)
+    exercises: ['chord-identification-auditory', 'chord-identification-visual', 'chord-drawing'],
   },
   // Rhythm category temporarily disabled - code preserved for future use
   // {

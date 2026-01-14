@@ -10,6 +10,8 @@ interface NoteButtonsProps {
   includeAccidentals?: boolean;
   highlightedNote?: Note | null;
   disabled?: boolean;
+  /** Use English note letters (C, D, E) instead of translated names (useful for chord exercises) */
+  useEnglishNotes?: boolean;
 }
 
 const NATURAL_NOTES: NoteName[] = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
@@ -20,6 +22,7 @@ export const NoteButtons: React.FC<NoteButtonsProps> = ({
   includeAccidentals = false,
   highlightedNote,
   disabled = false,
+  useEnglishNotes = false,
 }) => {
   const { language } = useGlobalStore();
 
@@ -41,7 +44,8 @@ export const NoteButtons: React.FC<NoteButtonsProps> = ({
   };
 
   const getLabel = (name: NoteName, accidental: Accidental = 'natural'): string => {
-    const baseName = getNoteName(name, language);
+    // For chord exercises, use English note letters instead of translated names
+    const baseName = useEnglishNotes ? name : getNoteName(name, language);
     if (accidental === 'sharp') return `${baseName}♯`;
     if (accidental === 'flat') return `${baseName}♭`;
     return baseName;
