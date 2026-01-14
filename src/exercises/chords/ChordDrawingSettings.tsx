@@ -63,39 +63,38 @@ export const ChordDrawingSettings: React.FC<ExerciseSettingsProps> = ({
         </div>
       </div>
 
-      {/* Quiz mode settings */}
-      {!isPracticeMode && (
-        <>
-          <div className={styles.field}>
-            <label className={styles.label}>{t('settings.questionCount', language)}</label>
-            <input
-              type="number"
-              className={styles.numberInput}
-              min={1}
-              max={100}
-              value={typeof chordSettings.questionCount === 'number' ? chordSettings.questionCount : 20}
-              onChange={(e) => {
-                const value = Math.max(1, Math.min(100, parseInt(e.target.value) || 20));
-                updateSetting('questionCount', value);
-              }}
-            />
-          </div>
+      {/* Question count */}
+      <div className={styles.field}>
+        <label className={styles.label}>{t('settings.questionCount', language)}</label>
+        <input
+          type="number"
+          className={styles.numberInput}
+          min={1}
+          max={100}
+          value={typeof chordSettings.questionCount === 'number' ? chordSettings.questionCount : 20}
+          onChange={(e) => {
+            const value = Math.max(1, Math.min(100, parseInt(e.target.value) || 20));
+            updateSetting('questionCount', value);
+          }}
+        />
+      </div>
 
-          <div className={styles.field}>
-            <label className={styles.label}>{t('settings.timeLimit', language)}</label>
-            <div className={styles.buttonGroup}>
-              {[null, 5, 10, 15].map((limit) => (
-                <button
-                  key={limit ?? 'none'}
-                  className={`${styles.optionButton} ${chordSettings.timeLimit === limit ? styles.active : ''}`}
-                  onClick={() => updateSetting('timeLimit', limit)}
-                >
-                  {limit === null ? t('value.off', language) : `${limit}s`}
-                </button>
-              ))}
-            </div>
+      {/* Time limit - only show for quiz mode */}
+      {!isPracticeMode && (
+        <div className={styles.field}>
+          <label className={styles.label}>{t('settings.timeLimit', language)}</label>
+          <div className={styles.buttonGroup}>
+            {[null, 5, 10, 15].map((limit) => (
+              <button
+                key={limit ?? 'none'}
+                className={`${styles.optionButton} ${chordSettings.timeLimit === limit ? styles.active : ''}`}
+                onClick={() => updateSetting('timeLimit', limit)}
+              >
+                {limit === null ? t('value.off', language) : `${limit}s`}
+              </button>
+            ))}
           </div>
-        </>
+        </div>
       )}
     </div>
   );

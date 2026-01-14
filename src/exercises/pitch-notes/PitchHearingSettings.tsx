@@ -37,6 +37,22 @@ export const PitchHearingSettings: React.FC<ExerciseSettingsProps> = ({
         </div>
       </div>
 
+      {/* Question count */}
+      <div className={styles.field}>
+        <label className={styles.label}>{t('settings.questionCount', language)}</label>
+        <input
+          type="number"
+          className={styles.numberInput}
+          min={1}
+          max={100}
+          value={typeof pitchSettings.questionCount === 'number' ? pitchSettings.questionCount : 20}
+          onChange={(e) => {
+            const value = Math.max(1, Math.min(100, parseInt(e.target.value) || 20));
+            updateSetting('questionCount', value);
+          }}
+        />
+      </div>
+
       {/* Quiz mode settings */}
       {!isPracticeMode && (
         <>
@@ -54,22 +70,6 @@ export const PitchHearingSettings: React.FC<ExerciseSettingsProps> = ({
                 </button>
               ))}
             </div>
-          </div>
-
-          {/* Question count */}
-          <div className={styles.field}>
-            <label className={styles.label}>{t('settings.questionCount', language)}</label>
-            <input
-              type="number"
-              className={styles.numberInput}
-              min={1}
-              max={100}
-              value={typeof pitchSettings.questionCount === 'number' ? pitchSettings.questionCount : 20}
-              onChange={(e) => {
-                const value = Math.max(1, Math.min(100, parseInt(e.target.value) || 20));
-                updateSetting('questionCount', value);
-              }}
-            />
           </div>
 
           {/* Time limit */}
